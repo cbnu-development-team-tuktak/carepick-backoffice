@@ -1,7 +1,7 @@
 // src/App.js
 
 // React 및 라우팅 관련 라이브러리 임포트
-import React from 'react'; // React 라이브러리 (React 컴포넌트를 작성하기 위해 필수)
+import React from 'react'; // React 라이브러리 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // React Router 라이브러리 (라우팅 기능 제공)
 
 // 공통 컴포넌트 import
