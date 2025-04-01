@@ -11,7 +11,7 @@
 }
 
 /* 의사 프로필 이미지 */
-.doctor-image {
+.doctor-card-image {
   height: 184px !important; /* 이미지 높이 */
   object-fit: cover; /* 이미지 크기 조정 (비율 유지 */
 }
@@ -28,6 +28,26 @@
   font-size: 0.75rem; /* 본문 폰트 크기 */
   margin-bottom: 0.25rem; /* 본문 텍스트 간 간격 */
   text-align: left !important; /* 본문 왼쪽 정렬 */
+}
+
+/* ================== 의사 상세 정보 관련 스타일 ================== */
+
+/* 의사 이미지 스타일 */
+.doctor-image {
+  width: 100px; /* 이미지 너비 */
+  height: 100px; /* 이미지 높이 */
+  object-fit: cover; /* 비율에 맞춰 이미지 크기 조정 */
+  cursor: pointer; /* 클릭 가능한 모양으로 변경 */
+  display: block; /* 블록 요소로 설정 */
+  margin: 0; /* 기본 margin 제거하여 왼쪽 상단에 배치 */
+}
+
+/* 새 창에서 이미지 확대 시 적용될 스타일 */
+.full-screen-image {
+  max-width: 100%; /* 최대 너비 100% */
+  height: auto; /* 높이는 비율에 맞춰 자동 조정 */
+  margin: 0;
+  display: block; /* 블록 요소로 설정 */
 }
 
 /* ================== 병원 카드 스타일 ================== */
@@ -72,6 +92,16 @@
   max-width: 100%; /* 최대 너비 100% */
 }
 
+/* ================== 병원 상세 정보 관련 스타일 ================== */
+
+/* 병원 썸네일 스타일 */
+.hospital-thumbnail {
+  width: 368px; /* 이미지 너비 */
+  height: 184px; /* 이미지 높이 */
+  object-fit: cover; /* 이미지 크기 조정 (비율 유지) */
+  border-radius: 12px; /* 둥근 모서리 */
+}
+
 /* ================== 고정 버튼 스타일 ================== */
 
 /* 고정 버튼 스타일 */
@@ -95,3 +125,4 @@
 .floating-btn:hover {
   cursor: pointer; /* 버튼 위에 마우스 올리면 포인터로 변경 */
 }
+

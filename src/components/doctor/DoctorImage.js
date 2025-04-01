@@ -1,11 +1,17 @@
 // src/components/doctor/DoctorImage.js
-import React from 'react';
 
-const DoctorImage = ({ imageUrl, isEditing, onFileChange }) => {
+// React 라이브러리 임포트
+import React from 'react'; // React 라이브러리 임포트
+
+const DoctorImage = ({ 
+  imageUrl, // 의사 이미지 URL (이미지가 없으면 기본 이미지 사용)
+  isEditing, // 편집 가능 여부 (true이면 파일 업로드 가능)
+  onFileChange // 파일 변경 처리 함수 (파일 업로드 시 사용)
+}) => {
   const imageSrc = imageUrl || '/img/doctor/default-profile.jpeg'; // 기본 이미지를 여기서 처리
 
   const handleImageClick = () => {
-    // 이미지 클릭 시 새 창에서 이미지를 엽니다.
+    // 이미지 클릭 시 새 창에서 이미지를 열기
     const newWindow = window.open('', '_blank');
     newWindow.document.body.innerHTML = `<img src="${imageSrc}" style="max-width: 100%; height: auto; margin: 0; display: block;"/>`;
   };
@@ -20,22 +26,14 @@ const DoctorImage = ({ imageUrl, isEditing, onFileChange }) => {
         <img
           src={imageSrc}
           alt="Doctor"
-          className="img-fluid rounded mb-3"
-          style={{
-            width: '100px', // 이미지 너비
-            height: '100px', // 이미지 높이
-            objectFit: 'cover', // 비율에 맞춰 이미지 크기 조정
-            cursor: 'pointer', // 클릭 가능한 모양으로 변경
-            display: 'block', // 블록 요소로 설정
-            margin: '0', // 기본 margin 제거하여 왼쪽 상단에 배치
-          }}
+          className="doctor-image img-fluid rounded mb-3"
           onClick={handleImageClick} // 이미지 클릭 시 새 창 열기
         />
         {isEditing && (
           <input
             type="file"
             className="form-control"
-            onChange={onFileChange}
+            onChange={onFileChange} // 파일 변경 시 처리
           />
         )}
       </div>

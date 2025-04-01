@@ -1,21 +1,26 @@
-// ✅ src/components/hospital/HospitalForm.jsx
-import React from 'react';
-import InputField from '../common/input/InputField';
-import InputList from '../common/input/InputList';
-import InputGroupField from '../common/input/InputGroup';
+// src/components/hospital/HospitalForm.jsx
+// React 관련 import
+import React from 'react'; // React 라이브러리 임포트
+
+// 커스텀 컴포넌트 관련 import
+import InputField from '../common/input/InputField'; // 기본 입력 필드 컴포넌트
+import InputList from '../common/input/InputList'; // 리스트 입력 필드 컴포넌트
+import InputGroupField from '../common/input/InputGroup'; // 좌우 입력 필드 컴포넌트
 
 const HospitalForm = ({
-  hospital,
-  isEditing,
-  handleInputChange,
-  handleFileChange,
-  imagePreview,
-  specialties = [],
-  selectedSpecialties = [],
-  setSelectedSpecialties = () => {},
+  hospital, // 병원 정보 객체 (HospitalDetailsResponse DTO)
+  isEditing, // 편집 가능 여부
+  handleInputChange, // 입력값 변경 처리 함수 (예: 병원명, 전화번호)
+  handleFileChange, // 이미지 파일 변경 처리 함수
+  imagePreview, // 이미지 미리보기 URL 
+  specialties = [], // 진료과 목록
+  selectedSpecialties = [], // 선택된 진료과 목록
+  setSelectedSpecialties = () => {}, // 선택된 진료과 목록 업데이트 함수 
 }) => {
+  // 썸네일 이미지 URL
   const thumbnailUrl = imagePreview || hospital?.images?.[0]?.url || '/img/hospital/default-thumbnail.jpg';
 
+  // 진료과 체크박스 클릭 시 선택/해제 처리
   const handleCheckboxChange = (specialtyName) => {
     if (selectedSpecialties.includes(specialtyName)) {
       setSelectedSpecialties(selectedSpecialties.filter(name => name !== specialtyName));
@@ -26,21 +31,21 @@ const HospitalForm = ({
 
   return (
     <form>
-      {/* 썸네일 */}
+      {/* 병원 썸네일 이미지 */}
       <div className="mb-4 text-center">
         <img
-          src={thumbnailUrl}
+          src={thumbnailUrl} // 썸네일 이미지 URL
           alt="병원 썸네일"
-          style={{ width: '184px', height: '184px', objectFit: 'cover', borderRadius: '12px' }}
+          className="hospital-thumbnail" 
         />
-        {isEditing && (
+        {isEditing && ( // 편집 가능 여부 확인 후 이미지 업로드 입력 필드 표시
           <div className="mt-2">
             <input type="file" accept="image/*" onChange={handleFileChange} />
           </div>
         )}
       </div>
 
-      {/* 기본 정보 */}
+      {/* 기본 정보 입력 필드*/}
       <InputField label="병원명" value={hospital?.name || ''} onChange={(e) => handleInputChange(e, 'name')} />
       <InputField label="전화번호" value={hospital?.phoneNumber || ''} onChange={(e) => handleInputChange(e, 'phoneNumber')} />
       <InputField label="홈페이지" value={hospital?.homepage || ''} onChange={(e) => handleInputChange(e, 'homepage')} />
@@ -48,7 +53,7 @@ const HospitalForm = ({
       <InputField label="운영 시간" value={hospital?.operatingHours || ''} onChange={(e) => handleInputChange(e, 'operatingHours')} />
       <InputField label="외부 URL" value={hospital?.url || ''} onChange={(e) => handleInputChange(e, 'url')} />
 
-      {/* 진료과 */}
+      {/* 진료과 체크박스 */}
       <div className="mb-4">
         <label className="form-label fw-bold" style={{ fontSize: '1.2rem' }}>진료과</label>
         <div className="d-flex flex-wrap gap-2">
@@ -70,7 +75,7 @@ const HospitalForm = ({
         </div>
       </div>
 
-      {/* 소속 의사 ID */}
+      {/* 소속 의사 ID 입력 리스트 */}
       <InputList
         label="소속 의사 ID"
         values={hospital?.doctors || []}

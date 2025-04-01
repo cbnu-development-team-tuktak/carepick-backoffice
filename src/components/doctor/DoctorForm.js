@@ -1,23 +1,25 @@
-import React from 'react';
+// React 라이브러리 임포트
+import React from 'react'; // React 라이브러리 임포트
 
 // 커스텀 입력 필드 컴포넌트들
-import InputField from '../common/input/InputField';
-import InputList from '../common/input/InputList';
-import DoctorImage from './DoctorImage';
+import InputField from '../common/input/InputField'; // 텍스트 입력 필드 컴포넌트
+import InputList from '../common/input/InputList'; // 리스트 항목 입력 필드 컴포넌트
+import DoctorImage from './DoctorImage'; // 의사 프로필 이미지 컴포넌트
 
 const DoctorForm = ({
-  doctor,
-  isEditing,
-  handleInputChange,
-  handleListChange,
-  handleFileChange,
-  imagePreview,
-  specialties = [], // 기본값: 빈 배열 (map 에러 방지)
-  selectedSpecialties = [],
-  setSelectedSpecialties = () => {}, // 기본값: 빈 함수
+  doctor, // 의사 정보 DTO
+  isEditing, // 편집 가능 여부
+  handleInputChange, // 입력값 변경 처리 함수
+  handleListChange, // 리스트 항목 입력값 변경 처리 함수
+  handleFileChange, // 이미지 파일 변경 처리 함수
+  imagePreview, // 이미지 미리보기 URL
+  specialties = [], // 진료과 목록
+  selectedSpecialties = [], // 선택된 진료과 목록
+  setSelectedSpecialties = () => {}, // 선택된 진료과 목록 업데이트 함수
 }) => {
   // 체크박스 클릭 시 진료과 추가/제거
   const handleCheckboxChange = (specialtyName) => {
+    // 이미 선택된 진료과인 경우 목록에서 제거, 그렇지 않으면 목록에 추가
     if (selectedSpecialties.includes(specialtyName)) {
       setSelectedSpecialties(selectedSpecialties.filter(name => name !== specialtyName));
     } else {
@@ -29,16 +31,16 @@ const DoctorForm = ({
     <form>
       {/* 프로필 이미지 */}
       <DoctorImage
-        imageUrl={imagePreview || doctor?.profileImage}
-        isEditing={isEditing}
-        onFileChange={handleFileChange}
+        imageUrl={imagePreview || doctor?.profileImage} // 의사 미리보기 URL
+        isEditing={isEditing} // 편집 가능 여부
+        onFileChange={handleFileChange} // 파일 변경 시 호출될 함수
       />
 
       {/* 이름 필드 */}
       <InputField
-        label="이름"
-        value={doctor?.name || ''}
-        onChange={(e) => handleInputChange(e, 'name')}
+        label="이름" // 입력 필드 라벨
+        value={doctor?.name || ''} // 의사 이름
+        onChange={(e) => handleInputChange(e, 'name')} // 입력값 변경 시 호출될 함수
       />
 
       {/* 진료과 체크박스 */}
@@ -52,13 +54,13 @@ const DoctorForm = ({
               <input
                 className="form-check-input"
                 type="checkbox"
-                id={`specialty-${specialty.id}`}
-                disabled={!isEditing}
-                checked={selectedSpecialties.includes(specialty.name)}
-                onChange={() => handleCheckboxChange(specialty.name)}
+                id={`specialty-${specialty.id}`} // 진료과 고유 ID로 checkbox id 설정
+                disabled={!isEditing} // 수정 가능 여부에 따라 비활성화 여부 결정
+                checked={selectedSpecialties.includes(specialty.name)} // 선택된 진료과 표시
+                onChange={() => handleCheckboxChange(specialty.name)} // 체크박스 클릭 시 선택/제거
               />
               <label className="form-check-label" htmlFor={`specialty-${specialty.id}`}>
-                {specialty.name}
+                {specialty.name} {/* 진료과 이름 */}
               </label>
             </div>
           ))}
@@ -67,25 +69,25 @@ const DoctorForm = ({
 
       {/* 소속 병원 */}
       <InputField
-        label="소속 병원"
-        value={doctor?.hospitalName || '정보 없음'}
-        onChange={(e) => handleInputChange(e, 'hospitalName')}
+        label="소속 병원" // 입력 필드 라벨
+        value={doctor?.hospitalName || '정보 없음'} // 병원 이름
+        onChange={(e) => handleInputChange(e, 'hospitalName')} // 입력값 변경 시 호출될 함수
       />
 
       {/* 자격면허 목록 */}
       <InputList
-        label="자격면허"
-        values={doctor?.educationLicenses || []}
-        onChange={(e, idx) => handleListChange(e, idx, 'educationLicenses')}
-        placeholder="정보 없음"
+        label="자격면허" // 리스트 필드 라벨 
+        values={doctor?.educationLicenses || []} // 자격면허 목록
+        onChange={(e, idx) => handleListChange(e, idx, 'educationLicenses')} // 리스트 항목 변경 시 호출될 함수
+        placeholder="정보 없음" // 리스트 항목이 없을 경우 기본값
       />
 
       {/* 경력 목록 */}
       <InputList
-        label="경력"
-        values={doctor?.careers || []}
-        onChange={(e, idx) => handleListChange(e, idx, 'careers')}
-        placeholder="정보 없음"
+        label="경력" // 리스트 필드 라벨 
+        values={doctor?.careers || []} // 경력 목록
+        onChange={(e, idx) => handleListChange(e, idx, 'careers')} // 리스트 항목 변경 시 호출될 함수
+        placeholder="정보 없음" // 리스트 항목이 없을 경우 기본값
       />
     </form>
   );
