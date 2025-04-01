@@ -1,65 +1,73 @@
+/* ================== 의사 카드 스타일 ================== */
+
+/* 의사 카드 전체 크기 */
 .doctor-card {
-  width: 184px !important; /* 카드 전체 크기 */
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 0 !important;
-  margin: 4px;
-  font-size: 0.85rem;
+  width: 184px !important; /* 카드 너비 */
+  border-radius: 12px; /* 둥근 모서리 */
+  overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+  padding: 0 !important; /* 패딩 제거 */
+  margin: 4px; /* 카드 간격 */
+  font-size: 0.85rem; /* 폰트 크기 */
 }
 
+/* 의사 프로필 이미지 */
 .doctor-image {
-  height: 184px !important;
-  object-fit: cover;
+  height: 184px !important; /* 이미지 높이 */
+  object-fit: cover; /* 이미지 크기 조정 (비율 유지 */
 }
 
+/* 의사 카드의 제목 */
 .card-title {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  text-align: left !important; 
+  font-size: 1rem; /* 제목 폰트 크기 */
+  margin-bottom: 0.5rem; /* 제목과 본문 간의 간격 */
+  text-align: left !important; /* 제목 왼쪽 정렬 */
 }
 
+/* 의사 카드의 본문 텍스트 */
 .card-text {
-  font-size: 0.75rem;
-  margin-bottom: 0.25rem;
-  text-align: left !important;
+  font-size: 0.75rem; /* 본문 폰트 크기 */
+  margin-bottom: 0.25rem; /* 본문 텍스트 간 간격 */
+  text-align: left !important; /* 본문 왼쪽 정렬 */
 }
 
-/* 병원 카드 전체 박스 */
+/* ================== 병원 카드 스타일 ================== */
+
+/* 병원 카드 전체 크기 */
 .hospital-card {
-  width: 368px !important;  
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 0 !important;
-  margin: 4px;
-  font-size: 0.85rem;
+  width: 368px !important; /* 카드 너비 */
+  border-radius: 12px; /* 둥근 모서리 */
+  overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+  padding: 0 !important; /* 패딩 제거 */
+  margin: 4px; /* 카드 간격 */
+  font-size: 0.85rem; /* 폰트 크기 */
 }
 
 /* 병원 이미지 (썸네일) */
 .hospital-image {
-  height: 184px !important;
-  object-fit: cover;
-  width: 100%;
+  height: 184px !important; /* 이미지 높이 */
+  object-fit: cover; /* 이미지 크기 조정 (비율 유지) */
+  width: 100%; /* 이미지 너비 100% */
 }
 
 /* 병원 이름 */
 .hospital-body h6 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  text-align: left !important;
+  font-size: 1rem; /* 병원 이름 폰트 크기 */
+  margin-bottom: 0.5rem; /* 이름과 진료과/주소 간의 간격 */
+  text-align: left !important; /* 병원 이름 왼쪽 정렬 */
 }
 
 /* 진료과, 주소 텍스트 */
 .hospital-body p {
-  font-size: 0.75rem;
-  margin-bottom: 0.25rem;
-  text-align: left !important;
+  font-size: 0.75rem; /* 텍스트 폰트 크기 */
+  margin-bottom: 0.25rem; /* 텍스트 간 간격 */
+  text-align: left !important; /* 텍스트 왼쪽 정렬 */
 }
 
 /* 병원 카드 이름, 진료과, 주소에 공통 적용 */
 .truncate-text {
-  display: block;              /* inline 요소에도 적용되게 */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+  display: block; /* inline 요소에도 적용 */              
+  white-space: nowrap; /* 텍스트는 한 줄로 표시 */
+  overflow: hidden; /* 넘치는 텍스트는 숨김 처리 */
+  text-overflow: ellipsis; /* 텍스트가 길어지면 ...으로 처리 */
+  max-width: 100%; /* 최대 너비 100% */
 }
