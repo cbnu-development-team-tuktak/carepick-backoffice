@@ -1,0 +1,65 @@
+.doctor-card {
+  width: 184px !important; /* 카드 전체 크기 */
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0 !important;
+  margin: 4px;
+  font-size: 0.85rem;
+}
+
+.doctor-image {
+  height: 184px !important;
+  object-fit: cover;
+}
+
+.card-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  text-align: left !important; 
+}
+
+.card-text {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  text-align: left !important;
+}
+
+/* 병원 카드 전체 박스 */
+.hospital-card {
+  width: 368px !important;  
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0 !important;
+  margin: 4px;
+  font-size: 0.85rem;
+}
+
+/* 병원 이미지 (썸네일) */
+.hospital-image {
+  height: 184px !important;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* 병원 이름 */
+.hospital-body h6 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  text-align: left !important;
+}
+
+/* 진료과, 주소 텍스트 */
+.hospital-body p {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  text-align: left !important;
+}
+
+/* 병원 카드 이름, 진료과, 주소에 공통 적용 */
+.truncate-text {
+  display: block;              /* inline 요소에도 적용되게 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
