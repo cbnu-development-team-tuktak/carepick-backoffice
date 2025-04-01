@@ -9,13 +9,19 @@ import Navbar from './components/common/Navbar'; // 상단 네비게이션 바 �
 
 // 페이지 컴포넌트 import
 import Home from './pages/Home'; // 홈 페이지 컴포넌트
+
 import Hospital from './pages/hospital/Hospital'; // 병원 목록 페이지 컴포넌트
 import HospitalDetail from './pages/hospital/HospitalDetail'; // 병원 상세 페이지 컴포넌트
+
 import Doctor from './pages/doctor/Doctor'; // 의사 목록 페이지 컴포넌트
 import DoctorDetail from './pages/doctor/DoctorDetail'; // 의사 상세 페이지 컴포넌트
 import DoctorAdd from './pages/doctor/DoctorAdd'; // 의사 추가 페이지 컴포넌트
+
 import Disease from './pages/disease/Disease'; // 질병 목록 페이지 컴포넌트
 import DiseaseDetail from './pages/disease/DiseaseDetail'; // 질병 상세 페이지 컴포넌트
+
+import Symptom from './pages/symptom/Symptom'; // 증상 목록 페이지 컴포넌트
+import SymptomDetail from './pages/symptom/SymptomDetail'; // 증상 목록 페이지 컴포넌트
 
 function App() {
   return (
@@ -49,6 +55,12 @@ function App() {
 
           {/* 질병 상세 페이지 (질병 ID를 이용해 해당 질병 정보 표시) */}
           <Route path="/disease/:id" element={<DiseaseDetail />} />
+
+          {/* 증상 목록 페이지 */}
+          <Route path="/symptom" element={<Symptom />} />
+
+          {/* 증상 상세 페이지 (증상 ID를 이용해 해당 증상 정보 표시) */}
+          <Route path="/symptom/:id" element={<SymptomDetail />} />
         </Routes>
       </div>
     </Router>
