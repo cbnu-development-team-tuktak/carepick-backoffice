@@ -1,66 +1,116 @@
 // React 및 Hook 관련 import
-import React, { useState, useEffect } from 'react'; // 컴포넌트 생명주기와 상태 관리를 위한 React 훅 사용
-
-// React Router 관련 import
-import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate 훅 사용
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // 컴포넌트 관련 import
-import PageHeader from '../../components/common/PageHeader'; // 공통 헤더 컴포넌트 import
-import Pagination from '../../components/common/Pagination'; // 페이지네이션 컴포넌트 import
+import PageHeader from '../../components/common/PageHeader';
+import Pagination from '../../components/common/Pagination';
+import SymptomCard from '../../components/symptom/SymptomCard';
+
+// 초성 리스트 (쌍자음 포함 + 전체 + 기타)
+const INITIAL_CONSONANTS = [
+  'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ',
+  'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ',
+  'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ',
+  '전체', '기타',
+];
 
 function Symptom() {
-  // 상태 관련 변수 선언
-  const [symptoms, setSymptoms] = useState([]); // 조회된 증상 목록을 저장하는 상태
-  const [page, setPage] = useState(0); // 현재 페이지 번호를 저장하는 상태
-  const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수를 저장하는 상태
+  const [symptoms, setSymptoms] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [editingIds, setEditingIds] = useState([]);
+  const [selectedInitial, setSelectedInitial] = useState('전체');
 
-  // 라우팅 관련 함수 선언
-  const navigate = useNavigate(); // 다른 페이지(예: 증상 상세 페이지)로 이동하기 위한 함수
+  const navigate = useNavigate();
 
-  // 컴포넌트가 마운트되거나 page 상태가 변경될 때 실행되는 사이드 이펙트
+  // 더미 데이터 세팅
   useEffect(() => {
-    // 서버에서 증상 데이터를 요청하는 부분은 일단 생략
-    // const fetchSymptoms = async () => {
-    //   // API 호출 코드
-    // };
-    // fetchSymptoms();
-
-    // 예시로 더미 데이터를 설정
     setSymptoms([
       { id: 1, name: '기침' },
       { id: 2, name: '두통' },
-      { id: 3, name: '발열' },
-      // 추가적인 증상 목록을 여기에 추가
+      { id: 3, name: '1번' },
+      { id: 4, name: 'Apple' },
+      { id: 5, name: '복통' },
+      { id: 6, name: '@복통' },
     ]);
-    setTotalPages(1); // 페이지 수 설정 (예시로 1페이지만 설정)
+    setTotalPages(1);
   }, [page]);
 
+  // 수정 토글
+  const toggleEdit = (id) => {
+    setEditingIds((prev) =>
+      prev.includes(id) ? prev.filter((eid) => eid !== id) : [...prev, id]
+    );
+  };
+
+  // 인풋 변경
+  const handleNameChange = (id, newName) => {
+    setSymptoms((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, name: newName } : s))
+    );
+  };
+
+  // 초성 추출
+  const getInitialConsonant = (char) => {
+    const initialTable = [
+      'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ',
+      'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ',
+      'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ',
+    ];
+    const code = char.charCodeAt(0) - 44032;
+    if (code < 0 || code > 11171) return ''; // 한글 아님
+    const index = Math.floor(code / 588);
+    return initialTable[index] || '';
+  };
+
+  // 필터링 적용
+  const filteredSymptoms = symptoms.filter((symptom) => {
+    const firstChar = symptom.name.charAt(0);
+    const initial = getInitialConsonant(firstChar);
+
+    if (selectedInitial === '전체') return true;
+    if (selectedInitial === '기타') {
+      const isKnownInitial = INITIAL_CONSONANTS.includes(initial);
+      return !isKnownInitial || initial === '';
+    }
+    return initial === selectedInitial;
+  });
+
   return (
-    <div className="container mt-4">
-      {/* 헤더 영역 */}
+    <div className="container px-0">
       <PageHeader
         title="증상 관리"
         description="등록된 증상 정보를 조회하고 자세히 확인할 수 있는 페이지입니다."
       />
 
-      {/* 증상 카드 리스트 영역 */}
-      <div className="row">
-        {symptoms.map((symptom) => (
-          <div key={symptom.id} className="col-12 mb-3">
-            <div className="card"> {/* 개별 증상 카드 */}
-              <div className="card-body">
-                <h5 className="card-title mb-1 fw-bold fs-5">{symptom.name}</h5> {/* 증상 이름 */}
-                <button
-                  className="btn btn-sm btn-outline-primary"
-                  onClick={() => navigate(`/symptom/${symptom.id}`)} // 증상 상세 페이지로 이동 
-                >
-                  자세히 보기
-                </button>
-              </div>
-            </div>
-          </div>
+      {/* 초성 필터 버튼 */}
+      <div className="mb-3 d-flex flex-wrap gap-2">
+        {INITIAL_CONSONANTS.map((char) => (
+          <button
+            key={char}
+            className={`btn btn-sm ${selectedInitial === char ? 'btn-dark text-white' : 'btn-light'}`}
+            onClick={() => setSelectedInitial(char)}
+          >
+            {char}
+          </button>
         ))}
       </div>
+
+      {/* 증상 카드 목록 */}
+      <div className="d-flex flex-wrap gap-2">
+        {filteredSymptoms.map((symptom) => (
+          <SymptomCard
+            key={symptom.id}
+            symptom={symptom}
+            isEditing={editingIds.includes(symptom.id)}
+            onToggleEdit={toggleEdit}
+            onNameChange={handleNameChange}
+          />
+        ))}
+      </div>
+
+      {/* 페이지네이션 */}
       <Pagination
         page={page}
         totalPages={totalPages}
