@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Spinner } from 'react-bootstrap'; // ✅ 로딩 스피너 추가 import
+import { Spinner } from 'react-bootstrap';
+import { FaArrowLeft } from 'react-icons/fa';
 
-// DTO 변환 함수
 import { fromSymptomApiResponse } from '../../dto/SymptomDetailsResponse';
 import { fromDiseaseApiResponse } from '../../dto/DiseaseDetailsResponse';
-
-// 공통 컴포넌트
 import PageHeader from '../../components/common/PageHeader';
 
 function SymptomDetail() {
-  const { id } = useParams(); // 현재 URL에서 증상 ID 추출
-  const navigate = useNavigate(); // 페이지 이동용
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const [symptom, setSymptom] = useState(null); // 현재 증상 정보
-  const [diseases, setDiseases] = useState([]); // 연결된 질병 리스트
-  const [loading, setLoading] = useState(true); // 전체 페이지 로딩 여부
-  const [symptomMap, setSymptomMap] = useState({}); // { id: name } 형태의 증상 이름 맵
-  const [symptomMapReady, setSymptomMapReady] = useState(false); // 증상 맵 로딩 여부
+  const [symptom, setSymptom] = useState(null);
+  const [diseases, setDiseases] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [symptomMap, setSymptomMap] = useState({});
+  const [symptomMapReady, setSymptomMapReady] = useState(false);
 
   useEffect(() => {
     let isCancelled = false;
 
     const fetchSymptomAndDiseases = async () => {
       try {
+        setLoading(true); // ✅ 페이지 전환 시 로딩 표시
         const res = await fetch(`/api/symptoms/${id}`);
         const data = await res.json();
         if (isCancelled) return;
@@ -47,7 +46,6 @@ function SymptomDetail() {
         const validDiseases = diseaseData.filter((d) => d !== null);
         setDiseases(validDiseases);
 
-        // 증상 ID → 이름 매핑
         const uniqueSymptomIds = new Set(validDiseases.flatMap((d) => d.symptoms));
         const symptomResponses = await Promise.all(
           Array.from(uniqueSymptomIds).map(async (symptomId) => {
@@ -81,22 +79,42 @@ function SymptomDetail() {
     };
   }, [id]);
 
-  if (loading) return <div className="text-center mt-4">로딩 중...</div>;
-  if (!symptom) return <div className="text-center mt-4 text-danger">증상 정보를 찾을 수 없습니다.</div>;
+  if (loading) {
+    return (
+      <div className="text-center mt-5">
+        <Spinner animation="border" role="status" />
+        <div className="mt-2">로딩 중입니다...</div>
+      </div>
+    );
+  }
+
+  if (!symptom) {
+    return (
+      <div className="text-center mt-4 text-danger">
+        증상 정보를 찾을 수 없습니다.
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-4">
-      {/* 페이지 상단 제목 */}
       <PageHeader
         title="증상 상세 정보"
         description="해당 증상과 연결된 질병 정보를 확인할 수 있습니다."
+        rightButton={
+          <button
+            className="btn btn-outline-secondary d-flex align-items-center"
+            onClick={() => navigate('/symptom')}
+          >
+            <FaArrowLeft className="me-2" />
+            뒤로 가기
+          </button>
+        }
       />
 
-      {/* 증상 상세 카드 */}
       <div className="card shadow-sm p-4">
         <p className="fw-bold fs-4 mb-4">{symptom.name}</p>
 
-        {/* 연결된 질병 리스트 */}
         <h6 className="fw-bold">관련 질병</h6>
         <ul className="list-group mt-2">
           {diseases.map((disease) => {
@@ -105,7 +123,7 @@ function SymptomDetail() {
             return (
               <li
                 key={disease.id}
-                className="list-group-item d-flex justify-content-between align-items-start mb-3"
+                className="list-group-item d-flex justify-content-between align-items-start" // ✅ mb-3 제거
               >
                 <div className="ms-2 me-auto w-100">
                   <div className="fw-bold mb-2">{disease.name}</div>
