@@ -1,7 +1,6 @@
-// src/pages/SymptomDetail.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap'; // ✅ 로딩 스피너 추가 import
 
 // DTO 변환 함수
 import { fromSymptomApiResponse } from '../../dto/SymptomDetailsResponse';
@@ -16,19 +15,22 @@ function SymptomDetail() {
 
   const [symptom, setSymptom] = useState(null); // 현재 증상 정보
   const [diseases, setDiseases] = useState([]); // 연결된 질병 리스트
-  const [loading, setLoading] = useState(true); // 로딩 여부
+  const [loading, setLoading] = useState(true); // 전체 페이지 로딩 여부
   const [symptomMap, setSymptomMap] = useState({}); // { id: name } 형태의 증상 이름 맵
+  const [symptomMapReady, setSymptomMapReady] = useState(false); // 증상 맵 로딩 여부
 
   useEffect(() => {
+    let isCancelled = false;
+
     const fetchSymptomAndDiseases = async () => {
       try {
-        // 증상 자체 조회
         const res = await fetch(`/api/symptoms/${id}`);
         const data = await res.json();
+        if (isCancelled) return;
+
         const dto = fromSymptomApiResponse(data);
         setSymptom(dto);
 
-        // 질병 데이터 (병렬 처리)
         const diseaseData = await Promise.all(
           dto.diseaseIds.map(async (diseaseId) => {
             try {
@@ -40,13 +42,13 @@ function SymptomDetail() {
             }
           })
         );
+        if (isCancelled) return;
+
         const validDiseases = diseaseData.filter((d) => d !== null);
         setDiseases(validDiseases);
 
-        // 질병 내 모든 증상 ID 수집
+        // 증상 ID → 이름 매핑
         const uniqueSymptomIds = new Set(validDiseases.flatMap((d) => d.symptoms));
-
-        // ID → 이름 맵핑
         const symptomResponses = await Promise.all(
           Array.from(uniqueSymptomIds).map(async (symptomId) => {
             try {
@@ -54,20 +56,29 @@ function SymptomDetail() {
               const json = await res.json();
               return [symptomId, json.name];
             } catch {
-              return [symptomId, '이름 없음'];
+              return [symptomId, null];
             }
           })
         );
 
-        setSymptomMap(Object.fromEntries(symptomResponses));
-        setLoading(false);
+        if (!isCancelled) {
+          setSymptomMap(Object.fromEntries(symptomResponses));
+          setSymptomMapReady(true);
+          setLoading(false);
+        }
       } catch (err) {
-        console.error('증상 정보 조회 실패:', err);
-        setLoading(false);
+        if (!isCancelled) {
+          console.error('증상 정보 조회 실패:', err);
+          setLoading(false);
+        }
       }
     };
 
     fetchSymptomAndDiseases();
+
+    return () => {
+      isCancelled = true;
+    };
   }, [id]);
 
   if (loading) return <div className="text-center mt-4">로딩 중...</div>;
@@ -87,9 +98,11 @@ function SymptomDetail() {
 
         {/* 연결된 질병 리스트 */}
         <h6 className="fw-bold">관련 질병</h6>
-        {diseases.length > 0 ? (
-          <ul className="list-group mt-2">
-            {diseases.map((disease) => (
+        <ul className="list-group mt-2">
+          {diseases.map((disease) => {
+            const hasAllNames = disease.symptoms.every((symptomId) => symptomMap[symptomId]);
+
+            return (
               <li
                 key={disease.id}
                 className="list-group-item d-flex justify-content-between align-items-start mb-3"
@@ -97,45 +110,50 @@ function SymptomDetail() {
                 <div className="ms-2 me-auto w-100">
                   <div className="fw-bold mb-2">{disease.name}</div>
 
-                  <div className="d-flex flex-wrap gap-2">
-                    {disease.symptoms.map((symptomId) => {
-                      const symptomName = symptomMap[symptomId] || '이름 없음';
-                      const isCurrent = symptomId === Number(id);
+                  {hasAllNames ? (
+                    <div className="d-flex flex-wrap gap-2">
+                      {disease.symptoms.map((symptomId) => {
+                        const symptomName = symptomMap[symptomId];
+                        const isCurrent = symptomId === Number(id);
 
-                      return (
-                        <span
-                          key={symptomId}
-                          className={`px-2 py-1 rounded ${
-                            isCurrent ? 'bg-primary text-white fw-bold' : 'bg-light text-muted'
-                          }`}
-                          style={{
-                            flex: '0 0 calc(20% - 0.5rem)',
-                            minWidth: 'fit-content',
-                            textAlign: 'center',
-                            cursor: isCurrent ? 'default' : 'pointer',
-                          }}
-                          onClick={() => {
-                            if (!isCurrent) {
-                              navigate(`/symptom/${symptomId}`);
-                            }
-                          }}
-                        >
-                          {symptomName}
-                        </span>
-                      );
-                    })}
-                  </div>
+                        return (
+                          <span
+                            key={symptomId}
+                            className={`px-2 py-1 rounded ${
+                              isCurrent ? 'bg-primary text-white fw-bold' : 'bg-light text-muted'
+                            }`}
+                            style={{
+                              flex: '0 0 calc(20% - 0.5rem)',
+                              minWidth: 'fit-content',
+                              textAlign: 'center',
+                              cursor: isCurrent ? 'default' : 'pointer',
+                            }}
+                            onClick={() => {
+                              if (!isCurrent) {
+                                navigate(`/symptom/${symptomId}`);
+                              }
+                            }}
+                          >
+                            {symptomName}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="d-flex align-items-center py-2">
+                      <Spinner animation="border" size="sm" className="me-2" />
+                      <span className="text-muted">증상 정보를 불러오는 중...</span>
+                    </div>
+                  )}
                 </div>
 
                 <span className="badge text-bg-primary rounded-pill ms-3">
                   {disease.symptoms.length}
                 </span>
               </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-muted mt-2">연결된 질병이 없습니다.</p>
-        )}
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
