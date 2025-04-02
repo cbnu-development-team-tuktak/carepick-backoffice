@@ -44,7 +44,8 @@ function SymptomCard({
           className="btn btn-sm btn-outline-primary symptom-icon-btn me-2"
           onClick={handleEditClick}
         >
-          <FaPen size={14} /> {/* 연필 아이콘 */}
+          {/* 연필 아이콘 */}
+          <FaPen size={14} /> 
         </button>
 
         {/* 삭제 아이콘 버튼 (현재 비활성화) */}

@@ -5,7 +5,7 @@
  * @property {number} id - 질병 ID
  * @property {string} name - 질병명
  * @property {string} bodySystem - 신체 계통
- * @property {string[]} symptoms - 증상 이름 목록
+ * @property {number[]} symptoms - 연결된 증상 ID 목록
  * @property {string[]} specialties - 진료과 이름 목록
  * @property {string[]} doctorIds - 연결된 의사 ID 목록
  */
@@ -16,13 +16,12 @@
  * @returns {DiseaseDetailsResponse}
  */
 export function fromDiseaseApiResponse(apiResponse) {
-    return {
-      id: apiResponse.id,
-      name: apiResponse.name,
-      bodySystem: apiResponse.bodySystem,
-      symptoms: apiResponse.symptoms || [],
-      specialties: apiResponse.specialties || [],
-      doctorIds: apiResponse.doctorIds || [],
-    };
-  }
-  
+  return {
+    id: apiResponse.id,
+    name: apiResponse.name,
+    bodySystem: apiResponse.bodySystem,
+    symptoms: Array.isArray(apiResponse.symptoms) ? apiResponse.symptoms : [], 
+    specialties: Array.isArray(apiResponse.specialties) ? apiResponse.specialties : [],
+    doctorIds: Array.isArray(apiResponse.doctorIds) ? apiResponse.doctorIds : [],
+  };
+}
