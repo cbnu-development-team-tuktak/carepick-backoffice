@@ -1,44 +1,41 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaPen, FaTrash } from 'react-icons/fa';
 
 function SymptomCard({ symptom, isEditing, onToggleEdit, onNameChange }) {
+  const navigate = useNavigate();
+
+  const handleEditClick = (e) => {
+    e.stopPropagation();
+    if (isEditing) {
+      onToggleEdit(symptom.id);
+    } else {
+      navigate(`/symptom/${symptom.id}`);
+    }
+  };
+
   return (
-    <div className="card p-2 d-flex flex-row align-items-center justify-content-between"
-         style={{
-           minWidth: '280px',
-           maxWidth: '280px',
-           boxSizing: 'border-box',
-         }}>
+    <div className="card p-2 d-flex flex-row align-items-center justify-content-between symptom-card">
       <input
         type="text"
+        className="form-control form-control-sm symptom-name-input"
         value={symptom.name}
         disabled={!isEditing}
         onChange={(e) => onNameChange(symptom.id, e.target.value)}
-        style={{
-          width: '160px',
-          height: '28px',
-          fontSize: '14px',
-          border: '1px solid #ccc',
-          borderRadius: '4px',
-          paddingLeft: '6px',
-          paddingRight: '6px',
-          backgroundColor: isEditing ? '#fff' : '#eee',
-          marginRight: '4px',
-        }}
+        onClick={(e) => e.stopPropagation()}
       />
-      <div className="d-flex flex-row gap-1">
+      <div className="d-flex symptom-button-group" onClick={(e) => e.stopPropagation()}>
         <button
-          className="btn btn-sm btn-primary"
-          style={{ fontSize: '12px', padding: '2px 6px' }}
-          onClick={() => onToggleEdit(symptom.id)}
+          className="btn btn-sm btn-outline-primary symptom-icon-btn me-2"
+          onClick={handleEditClick}
         >
-          {isEditing ? '저장' : '수정'}
+          <FaPen size={14} />
         </button>
         <button
-          className="btn btn-sm btn-danger"
-          style={{ fontSize: '12px', padding: '2px 6px' }}
+          className="btn btn-sm btn-outline-danger symptom-icon-btn"
           disabled
         >
-          삭제
+          <FaTrash size={14} />
         </button>
       </div>
     </div>

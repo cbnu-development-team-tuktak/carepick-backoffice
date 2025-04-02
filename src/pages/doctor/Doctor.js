@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'; // 컴포넌트 생명주기와 상태 관리를 위한 React 훅 사용
 import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate 훅 사용
 import { fetchDoctors } from '../../services/doctorService'; // 백엔드에서 가공된 의사 목록 데이터를 조회하는 함수
-import { fromDoctorApiResponse } from '../../dto/doctorDetailsResponse'; // 백엔드 응답 데이터를 프론트엔드에서 사용할 Doctor DTO 형태로 변환하는 함수
+import { fromDoctorApiResponse } from '../../dto/DoctorDetailsResponse'; // 백엔드 응답 데이터를 프론트엔드에서 사용할 Doctor DTO 형태로 변환하는 함수
 import PageHeader from '../../components/common/PageHeader'; // 공통 헤더 컴포넌트 import
 import Pagination from '../../components/common/Pagination'; // 페이지네이션 컴포넌트 import
 import DoctorCard from '../../components/doctor/DoctorCard'; // 재사용 가능한 의사 카드 컴포넌트 import

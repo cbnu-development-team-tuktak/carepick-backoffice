@@ -12,7 +12,7 @@ import Pagination from '../../components/common/Pagination'; // ✅ 페이지네
 import { fetchHospitals } from '../../services/hospitalService';
 
 // DTO
-import { fromHospitalApiResponse } from '../../dto/hospitalDetailsResponse';
+import { fromHospitalApiResponse } from '../../dto/HospitalDetailsResponse';
 
 function Hospital() {
   const [hospitals, setHospitals] = useState([]);

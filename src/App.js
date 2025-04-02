@@ -21,7 +21,7 @@ import Disease from './pages/disease/Disease'; // 질병 목록 페이지 컴포
 import DiseaseDetail from './pages/disease/DiseaseDetail'; // 질병 상세 페이지 컴포넌트
 
 import Symptom from './pages/symptom/Symptom'; // 증상 목록 페이지 컴포넌트
-import SymptomDetail from './pages/symptom/SymptomDetail'; // 증상 목록 페이지 컴포넌트
+import SymptomDetail from './pages/symptom/SymptomDetail';
 
 function App() {
   return (
@@ -59,7 +59,7 @@ function App() {
           {/* 증상 목록 페이지 */}
           <Route path="/symptom" element={<Symptom />} />
 
-          {/* 증상 상세 페이지 (증상 ID를 이용해 해당 증상 정보 표시) */}
+          {/* 증상 상세 페이지 */}
           <Route path="/symptom/:id" element={<SymptomDetail />} />
         </Routes>
       </div>

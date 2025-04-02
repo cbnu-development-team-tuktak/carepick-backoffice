@@ -1,7 +1,7 @@
 // ✅ src/pages/HospitalDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fromHospitalApiResponse } from '../../dto/hospitalDetailsResponse';
+import { fromHospitalApiResponse } from '../../dto/HospitalDetailsResponse';
 import { fetchSpecialties } from '../../services/specialtyService';
 import HospitalForm from '../../components/hospital/HospitalForm';
 import PageHeader from '../../components/common/PageHeader';

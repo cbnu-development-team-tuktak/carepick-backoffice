@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 us
 import { fetchProcessedDiseases } from '../../services/diseaseService'; // 백엔드에서 가공된 질병 목록 데이터를 조회하는 함수
 
 // DTO 변환 관련 import
-import { fromDiseaseApiResponse } from '../../dto/diseaseDetailsResponse'; // 백엔드 응답 데이터를 프론트엔드에서 사용할 Disease DTO 형태로 변환하는 함수
+import { fromDiseaseApiResponse } from '../../dto/DiseaseDetailsResponse'; // 백엔드 응답 데이터를 프론트엔드에서 사용할 Disease DTO 형태로 변환하는 함수
 
 // 컴포넌트 관련 import
 import PageHeader from '../../components/common/PageHeader'; // 공통 헤더 컴포넌트 import

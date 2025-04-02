@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
-import { fromDoctorApiResponse } from '../../dto/doctorDetailsResponse';
+import { fromDoctorApiResponse } from '../../dto/DoctorDetailsResponse';
 
 // UI 컴포넌트 import
 import { Modal, Button } from 'react-bootstrap'; 

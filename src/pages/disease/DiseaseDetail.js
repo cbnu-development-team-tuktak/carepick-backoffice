@@ -1,7 +1,7 @@
 // src/pages/DiseaseDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fromDiseaseApiResponse } from '../../dto/diseaseDetailsResponse'; // DTO
+import { fromDiseaseApiResponse } from '../../dto/DiseaseDetailsResponse'; // DTO
 import { fetchSpecialties } from '../../services/specialtyService'; // 진료과 서비스
 import DiseaseForm from '../../components/disease/DiseaseForm'; // 증상 폼
 import PageHeader from '../../components/common/PageHeader'; // 페이지 헤더
