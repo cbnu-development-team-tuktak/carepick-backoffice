@@ -9,6 +9,7 @@ function Pagination({ page, totalPages, onPageChange }) {
   let start = Math.max(0, page - half);
   let end = start + maxButtons;
 
+  // 페이지 범위가 totalPages를 벗어나지 않도록 설정
   if (end > totalPages) {
     end = totalPages;
     start = Math.max(0, end - maxButtons);
