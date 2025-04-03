@@ -23,6 +23,8 @@ import DiseaseDetail from './pages/disease/DiseaseDetail'; // 질병 상세 페�
 import Symptom from './pages/symptom/Symptom'; // 증상 목록 페이지 컴포넌트
 import SymptomDetail from './pages/symptom/SymptomDetail';
 
+import SelfDiagnosis from './pages/self-diagnosis/SelfDiagnosis'; // 자가진단 테스트 컴포넌트
+
 function App() {
   return (
     <Router>
@@ -61,6 +63,9 @@ function App() {
 
           {/* 증상 상세 페이지 */}
           <Route path="/symptom/:id" element={<SymptomDetail />} />
+
+          {/* 자가진단 페이지 */}
+          <Route path="/self-diagnosis" element={<SelfDiagnosis />} />
         </Routes>
       </div>
     </Router>

@@ -7,8 +7,8 @@ import axios from 'axios';
 import PageHeader from '../../components/common/PageHeader'; // 페이지 상단 제목 및 설명 표시 컴포넌트
 import Pagination from '../../components/common/Pagination'; // 페이지네이션 컴포넌트 (페이지 버튼 렌더링)
 import SymptomCard from '../../components/symptom/SymptomCard'; // 증상 정보를 카드 형태로 출력하는 컴포넌트
-import InitialFilter from '../../components/common/filter/InitialFilter'; // 초성 필터 버튼 리스트 컴포넌트
-import LengthFilter from '../../components/common/filter/LengthFilter'; // ✅ 글자 수 필터 컴포넌트 추가
+import InitialFilter from '../../components/filter/InitialFilter'; // 초성 필터 버튼 리스트 컴포넌트
+import LengthFilter from '../../components/filter/LengthFilter'; // ✅ 글자 수 필터 컴포넌트 추가
 
 // 초성 필터에 사용할 한글 자음 리스트
 const INITIAL_CONSONANTS = [

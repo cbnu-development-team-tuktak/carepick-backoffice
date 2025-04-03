@@ -46,6 +46,11 @@ function Navbar() {
                 <li><Link className="dropdown-item" to="/disease">질병 관리</Link></li> {/* 질병 관리 링크 */}
               </ul>
             </li>
+
+            {/* 자가진단 메뉴 */}
+            <li className="nav-item"> 
+              <Link className="nav-link active" to="/self-diagnosis">자가진단</Link> {/* 자가진단 링크 */}
+            </li>
           </ul>
         </div>
       </div>
