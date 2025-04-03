@@ -40,8 +40,8 @@ function Navbar() {
                 관리
               </a>
               <ul className="dropdown-menu">  {/* 드롭다운 항목 리스트 */}
-                <li><Link className="dropdown-item" to="/hospital">병원 관리</Link></li> {/* 병원 관리 링크 */}
-                <li><Link className="dropdown-item" to="/doctor">의사 관리</Link></li> {/* 의사 관리 링크 */}
+                {/* <li><Link className="dropdown-item" to="/hospital">병원 관리</Link></li>
+                <li><Link className="dropdown-item" to="/doctor">의사 관리</Link></li>  */}
                 <li><Link className="dropdown-item" to="/symptom">증상 관리</Link></li> {/* 증상 관리 링크 */}
                 <li><Link className="dropdown-item" to="/disease">질병 관리</Link></li> {/* 질병 관리 링크 */}
               </ul>
