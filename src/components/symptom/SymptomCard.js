@@ -1,19 +1,16 @@
-// React 관련 import
-import React from 'react'; // React 컴포넌트 기본 기능 사용
-
-// 라우팅 관련 import
-import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate 훅 사용
-
-// 아이콘 관련 import
-import { FaPen, FaTrash } from 'react-icons/fa'; // FontAwesome 연필 및 휴지통 아이콘
+// src/components/symptom/SymptomCard.js
+import React from 'react';
+import { FaPen, FaTrash } from 'react-icons/fa'; // FontAwesome 아이콘
+import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate 훅
 
 function SymptomCard({ 
   symptom, // 증상 객체
   isEditing, // 현재 수정 중인가 상태 여부
   onToggleEdit, // 수정 상태 토글 함수
-  onNameChange // 입력값 변경 처리 함수
+  onNameChange, // 입력값 변경 처리 함수
+  onDelete // 삭제 처리 함수
 }) {
-  const navigate = useNavigate(); // 페이지 이동용 훅
+  const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅
 
   // 수정 버튼 클릭 핸들러
   const handleEditClick = (e) => {
@@ -44,14 +41,13 @@ function SymptomCard({
           className="btn btn-sm btn-outline-primary symptom-icon-btn me-2"
           onClick={handleEditClick}
         >
-          {/* 연필 아이콘 */}
-          <FaPen size={14} /> 
+          <FaPen size={14} />
         </button>
 
-        {/* 삭제 아이콘 버튼 (현재 비활성화) */}
+        {/* 삭제 아이콘 버튼 */}
         <button
           className="btn btn-sm btn-outline-danger symptom-icon-btn"
-          disabled
+          onClick={() => onDelete(symptom.id)} // 삭제 버튼 클릭 시 onDelete 호출
         >
           <FaTrash size={14} />
         </button>

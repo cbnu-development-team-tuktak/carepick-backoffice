@@ -18,3 +18,18 @@ export const fetchSymptoms = async (page = 0, size = 10) => {
     throw error;
   }
 };
+
+/**
+ * 증상 삭제 함수
+ * @param {number} id - 삭제할 증상 ID
+ * @returns {Promise<void>} - 삭제 완료
+ */
+export const deleteSymptom = async (id) => {
+  try {
+    await axios.delete(`/api/symptoms/${id}`);
+    console.log(`증상(ID: ${id}) 삭제 완료`);
+  } catch (error) {
+    console.error('증상 삭제 중 오류 발생:', error);
+    throw error;
+  }
+};
