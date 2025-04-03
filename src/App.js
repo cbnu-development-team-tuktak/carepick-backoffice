@@ -21,7 +21,7 @@ import Disease from './pages/disease/Disease'; // 질병 목록 페이지 컴포
 import DiseaseDetail from './pages/disease/DiseaseDetail'; // 질병 상세 페이지 컴포넌트
 
 import Symptom from './pages/symptom/Symptom'; // 증상 목록 페이지 컴포넌트
-import SymptomDetail from './pages/symptom/SymptomDetail';
+import SymptomDetail from './pages/symptom/SymptomDetail'; // 증상 상세 페이지 컴포넌트
 
 import SelfDiagnosis from './pages/self-diagnosis/SelfDiagnosis'; // 자가진단 테스트 컴포넌트
 
