@@ -1,22 +1,38 @@
+// src/pages/Home.js
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadSymptomsCount, loadSymptomsPage } from '../store/symptomSlice';
+import { loadHospitalsCount, loadHospitalsPage } from '../store/hospitalSlice'; // 병원 정보 로드
+import { loadSymptomsCount, loadSymptomsPage } from '../store/symptomSlice'; // 증상 정보 로드
+import { loadDoctorsCount, loadDoctorsPage } from '../store/doctorSlice'; // 의사 정보 로드
+import { loadDiseasesCount, loadDiseasesPage } from '../store/diseaseSlice'; // 질병 정보 로드
 import PageHeader from '../components/common/PageHeader';
-import { Spinner } from 'react-bootstrap';
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';  // 아이콘 임포트
+import DataStatusList from '../components/home/DataStatusList';
 
 function Home() {
   const dispatch = useDispatch();
-  const symptomLoading = useSelector((state) => state.symptoms.loading);
+
+  // 증상 관련 변수
   const symptomCount = useSelector((state) => state.symptoms.count);
   const symptoms = useSelector((state) => state.symptoms.symptoms);
-  const currentPage = useSelector((state) => state.symptoms.page);
-  const totalPages = Math.ceil(symptomCount / 20);  // 1 페이지에 20개씩
-  const error = useSelector((state) => state.symptoms.error); // 에러 메시지
 
-  // 처음에 증상 개수 로드
+  // 병원 관련 변수
+  const hospitalCount = useSelector((state) => state.hospitals.count);
+  const hospitals = useSelector((state) => state.hospitals.hospitals);
+
+  // 의사 관련 변수
+  const doctorCount = useSelector((state) => state.doctors.count);
+  const doctors = useSelector((state) => state.doctors.doctors);
+
+  // 질병 관련 변수
+  const diseaseCount = useSelector((state) => state.diseases.count);
+  const diseases = useSelector((state) => state.diseases.diseases);
+
+  // 처음에 증상 개수, 병원 개수, 의사 개수, 질병 개수 로드
   useEffect(() => {
     dispatch(loadSymptomsCount());
+    dispatch(loadHospitalsCount());
+    dispatch(loadDoctorsCount());  // 의사 개수 로드
+    dispatch(loadDiseasesCount()); // 질병 개수 로드
   }, [dispatch]);
 
   // 증상 데이터를 한 번에 모두 로딩
@@ -26,70 +42,34 @@ function Home() {
     }
   }, [dispatch, symptomCount, symptoms.length]);
 
+  // 병원 데이터를 한 번에 모두 로딩
+  useEffect(() => {
+    if (hospitalCount > 0 && hospitals.length === 0) {
+      dispatch(loadHospitalsPage({ page: 0, size: hospitalCount }));
+    }
+  }, [dispatch, hospitalCount, hospitals.length]);
+
+  // 의사 데이터를 한 번에 모두 로딩
+  useEffect(() => {
+    if (doctorCount > 0 && doctors.length === 0) {
+      dispatch(loadDoctorsPage({ page: 0, size: doctorCount }));
+    }
+  }, [dispatch, doctorCount, doctors.length]);
+
+  // 질병 데이터를 한 번에 모두 로딩
+  useEffect(() => {
+    if (diseaseCount > 0 && diseases.length === 0) {
+      dispatch(loadDiseasesPage({ page: 0, size: diseaseCount }));
+    }
+  }, [dispatch, diseaseCount, diseases.length]);
+
   return (
     <div className="container mt-4">
       <PageHeader
         title="Carepick 관리자 홈"
         description="관리자 페이지에 오신 것을 환영합니다."
       />
-
-      <div className="mt-4">
-        <h6>데이터 로드 상태</h6>
-        <ul className="list-unstyled">
-          {/* 병원 정보 상태 */}
-          <li className="d-flex justify-content-between align-items-center">
-            <span><strong>병원 정보</strong></span>
-            <span className="text-muted">로드 비활성화</span>
-          </li>
-          
-          {/* 의사 정보 상태 */}
-          <li className="d-flex justify-content-between align-items-center">
-            <span><strong>의사 정보</strong></span>
-            <span className="text-muted">로드 비활성화</span>
-          </li>
-          
-          {/* 질병 정보 상태 */}
-          <li className="d-flex justify-content-between align-items-center">
-            <span><strong>질병 정보</strong></span>
-            <span className="text-muted">로드 비활성화</span>
-          </li>
-
-          {/* 증상 정보 상태 */}
-          <li className="d-flex justify-content-between align-items-center">
-            <span><strong>증상 정보</strong></span>
-            {symptomLoading ? (
-              <span className="text-primary d-inline-flex align-items-center gap-2">
-                <Spinner animation="border" size="sm" />
-                <span>불러오는 중...</span>
-              </span>
-            ) : error ? (
-              <span className="text-danger d-inline-flex align-items-center gap-2">
-                <FaTimesCircle size={16} className="mr-2" />
-                <span>{error}</span>
-              </span> 
-            ) : (
-              symptomCount > 0 && symptoms.length === symptomCount ? (
-                <span className="text-success d-inline-flex align-items-center gap-2">
-                  <FaCheckCircle size={16} className="mr-2" />
-                  <span>{`${symptoms.length} / ${symptomCount} 로드 완료`}</span>
-                </span>
-              ) : (
-                <span className="text-danger d-inline-flex align-items-center gap-2">
-                  <FaTimesCircle size={16} className="mr-2" />
-                  <span>로드 실패</span>
-                </span>
-              )
-            )}
-          </li>
-        </ul>
-
-        {/* 증상 페이지 로딩 상태 */}
-        {symptomLoading && symptomCount > 0 && (
-          <div className="mt-3">
-            <span>{currentPage + 1} / {totalPages} 페이지 로드 완료</span>
-          </div>
-        )}
-      </div>
+      <DataStatusList />
     </div>
   );
 }
