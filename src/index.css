@@ -218,3 +218,19 @@
   word-break: break-word; /* 단어 끊어짐 */
   white-space: pre-line; /* \n 문자로 줄바꿈 적용 */
 }
+
+/* ================== 자가진단 추천 증상 패널 스타일 ================== */
+
+/* 추천 증상 패널의 배경 색 및 최소 높이 설정 */
+.suggested-symptom-panel {
+  min-height: 60px;
+}
+
+/* 추천 증상 패널의 배경 색 (추천 증상 있음/없음에 따라 다르게 설정) */
+.suggested-symptom-panel.has-symptoms {
+  background-color: #f8f9fa;
+}
+
+.suggested-symptom-panel.no-symptoms {
+  background-color: #e9ecef;
+}
