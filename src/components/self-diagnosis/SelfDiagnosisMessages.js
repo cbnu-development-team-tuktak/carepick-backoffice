@@ -1,31 +1,23 @@
-import React from 'react';
+// React 관련 import
+import React from 'react'; // React 라이브러리 import
 
-function SelfDiagnosisMessages({ messages }) {
+// 자가진단 메시지
+function SelfDiagnosisMessages({ 
+  messages // 보여줄 메시지 목록
+}) {
   return (
-    <div
-      className="mx-auto p-3 rounded"
-      style={{
-        maxWidth: '960px',
-        height: '500px',
-        overflowY: 'scroll',
-        paddingBottom: '80px',
-        backgroundColor: 'rgba(13,110,253,0.2)',
-      }}
-    >
+    // 메시지 영역 컨테이너
+    <div className="mx-auto p-3 rounded messages-container">
       {messages.map((msg, index) => (
+        // 각 메시지의 역할에 따라 스타일 적용 (사용자 메시지 vs GPT 메시지)
         <div
-          key={index}
-          className={`mb-2 text-${msg.role === 'user' ? 'end' : 'start'}`}
+          key={index} // 고유 키 값
+          // 역할에 따라 클래슴여 변경
+          className={`message ${msg.role === 'user' ? 'message-user' : 'message-gpt'}`}
         >
-          <span
-            className={`d-inline-block p-2 rounded ${msg.role === 'user' ? 'bg-white text-dark border' : 'bg-primary text-white'}`}
-            style={{
-              maxWidth: '70%',
-              wordBreak: 'break-word',
-              whiteSpace: 'pre-line', // 이 줄 추가하면 \n 이 줄바꿈으로 출력돼!
-            }}
-          >
-            {msg.content}
+          {/* 메시지 내용 */}
+          <span className="message-content">
+            {msg.content} {/* 메시지 내용 출력 */}
           </span>
         </div>
       ))}
