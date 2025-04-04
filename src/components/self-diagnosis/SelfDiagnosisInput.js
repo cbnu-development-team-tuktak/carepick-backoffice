@@ -1,44 +1,32 @@
+// React 관련 import
 import React, { useEffect, useState } from 'react';
-import { fetchSymptoms } from '../../services/symptomService';
-import { fromSymptomApiResponse } from '../../dto/SymptomDetailsResponse';
+import { useSelector } from 'react-redux';
 
 function SelfDiagnosisInput({ onSubmit, disabled, value = '', onChange }) {
   const [input, setInput] = useState(value);
-  const [allSymptoms, setAllSymptoms] = useState([]);
   const [filteredSymptoms, setFilteredSymptoms] = useState([]);
-  const [isLoadingSymptoms, setIsLoadingSymptoms] = useState(true);
 
-  useEffect(() => {
-    const loadSymptoms = async () => {
-      try {
-        const res = await fetchSymptoms(0, 1000);
-        setAllSymptoms(res.content.map(fromSymptomApiResponse));
-      } catch (e) {
-        console.error('증상 불러오기 실패:', e);
-      } finally {
-        setIsLoadingSymptoms(false);
-      }
-    };
-    loadSymptoms();
-  }, []);
+  // 🔥 Redux 전역 상태에서 증상 목록 가져오기
+  const symptoms = useSelector((state) => state.symptoms.symptoms);
 
   // 현재 입력 중인 마지막 큰따옴표 안 키워드
   const getCurrentQuotedKeyword = (text) => {
-    const match = text.match(/"([^"]*)$/); // 마지막 큰따옴표 열려있을 때만
+    const match = text.match(/"([^"]*)$/);
     return match ? match[1] : '';
   };
 
+  const currentKeyword = getCurrentQuotedKeyword(input);
+
   useEffect(() => {
-    const currentKeyword = getCurrentQuotedKeyword(input);
-    if (currentKeyword.length > 0 && !isLoadingSymptoms) {
-      const filtered = allSymptoms
+    if (currentKeyword.length > 0 && symptoms.length > 0) {
+      const filtered = symptoms
         .filter((s) => s.name.startsWith(currentKeyword))
         .slice(0, 5);
       setFilteredSymptoms(filtered);
     } else {
       setFilteredSymptoms([]);
     }
-  }, [input, allSymptoms, isLoadingSymptoms]);
+  }, [input, symptoms]);
 
   const handleSend = () => {
     if (input.trim() === '' || disabled) return;
@@ -59,8 +47,6 @@ function SelfDiagnosisInput({ onSubmit, disabled, value = '', onChange }) {
     onChange?.(newText);
   };
 
-  const currentKeyword = getCurrentQuotedKeyword(input);
-
   return (
     <div
       className="p-2 border-top shadow mx-auto"
@@ -78,7 +64,7 @@ function SelfDiagnosisInput({ onSubmit, disabled, value = '', onChange }) {
       {/* 연관 검색어 추천 */}
       {currentKeyword && (
         <div className="mt-2 bg-light border rounded p-2">
-          {isLoadingSymptoms ? (
+          {symptoms.length === 0 ? (
             <div className="d-flex align-items-center gap-2">
               <div className="spinner-border spinner-border-sm text-secondary" role="status" />
               <span className="text-secondary">증상 정보 로드 중입니다...</span>

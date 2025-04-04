@@ -6,9 +6,12 @@ import PageHeader from '../../components/common/PageHeader';
 import SelfDiagnosisInput from '../../components/self-diagnosis/SelfDiagnosisInput';
 import SelfDiagnosisMessages from '../../components/self-diagnosis/SelfDiagnosisMessages';
 
+// 서비스 함수 import
+import { submitSymptomsForDiagnosis } from '../../services/selfDiagnosisService';
+
 // 큰따옴표로부터 증상 키워드 추출 (띄어쓰기 허용)
 const extractQuotedSymptoms = (text) => {
-  const matches = text.match(/"([^\"]+)"/g);
+  const matches = text.match(/"([^"]+)"/g);
   return matches ? matches.map(tag => tag.replace(/"/g, '').trim()) : [];
 };
 
@@ -25,7 +28,7 @@ function SelfDiagnosis() {
   // 예시: 시스템에 등록된 증상 목록 (실제로는 DB에서 받아오거나 캐싱된 목록 사용)
   const symptomDictionary = ['기침', '두통', '가래', '복통', '콧물', '열'];
 
-  const handleSubmit = (text) => {
+  const handleSubmit = async (text) => {
     console.log('사용자 입력:', text);
 
     const newUserMessage = {
@@ -44,31 +47,43 @@ function SelfDiagnosis() {
 
     // 3. 중복 제거 및 병합
     const allSymptoms = Array.from(new Set([...keywordsFromQuotes, ...keywordsFromText]));
-
     console.log('최종 증상 키워드:', allSymptoms);
 
-    // 응답 메시지 출력 로직 (애니메이션 포함)
     const loadingId = Date.now() + 1;
-    const response = `입력한 증상 키워드: ${allSymptoms.join(', ')}\n이 증상을 잘 진료할 수 있는 병원을 안내합니다.`;
-
     setMessages((prev) => [...prev, { id: loadingId, role: 'gpt', content: '' }]);
 
-    let currentChar = 0;
-    const typingInterval = setInterval(() => {
-      currentChar++;
-      const animatedText = response.slice(0, currentChar);
+    try {
+      // 4. 백엔드로 키워드 전송 및 응답 수신
+      const response = await submitSymptomsForDiagnosis(allSymptoms);
 
-      setMessages((prev) =>
-        prev.map((msg) =>
-          msg.id === loadingId ? { ...msg, content: animatedText } : msg
-        )
-      );
+      // 5. 애니메이션 출력
+      let currentChar = 0;
+      const typingInterval = setInterval(() => {
+        currentChar++;
+        const animatedText = response.slice(0, currentChar);
 
-      if (currentChar >= response.length) {
-        clearInterval(typingInterval);
-        setIsLoading(false);
-      }
-    }, 40);
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === loadingId ? { ...msg, content: animatedText } : msg
+          )
+        );
+
+        if (currentChar >= response.length) {
+          clearInterval(typingInterval);
+          setIsLoading(false);
+        }
+      }, 40);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: loadingId,
+          role: 'gpt',
+          content: '서버와의 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+        },
+      ]);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -78,7 +93,6 @@ function SelfDiagnosis() {
           title="자가진단"
           description="자가진단 기능을 테스트할 수 있는 화면입니다."
         />
-
         <SelfDiagnosisMessages messages={messages} />
       </div>
 
