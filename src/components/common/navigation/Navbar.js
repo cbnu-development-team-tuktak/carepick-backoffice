@@ -29,31 +29,62 @@ function Navbar() {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             {/* 홈 메뉴 */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/" activeClassName="active">홈</NavLink>
+              <NavLink
+                to="/"
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+              >
+                홈
+              </NavLink>
             </li>
 
-            {/* 관리 드롭다운 메뉴 */}
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
+            {/* 병원 관리 */}
+            <li className="nav-item">
+              <NavLink
+                to="/hospital"
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
               >
-                관리
-              </a>
-              <ul className="dropdown-menu">
-              <li><NavLink className="dropdown-item" to="/hospital">병원 관리</NavLink></li>
-              <li><NavLink className="dropdown-item" to="/doctor">의사 관리</NavLink></li>
-                <li><NavLink className="dropdown-item" to="/symptom">증상 관리</NavLink></li>
-                <li><NavLink className="dropdown-item" to="/disease">질병 관리</NavLink></li>
-              </ul>
+                병원 관리
+              </NavLink>
+            </li>
+
+            {/* 의사 관리 */}
+            <li className="nav-item">
+              <NavLink
+                to="/doctor"
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+              >
+                의사 관리
+              </NavLink>
+            </li>
+
+            {/* 증상 관리 */}
+            <li className="nav-item">
+              <NavLink
+                to="/symptom"
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+              >
+                증상 관리
+              </NavLink>
+            </li>
+
+            {/* 질병 관리 */}
+            <li className="nav-item">
+              <NavLink
+                to="/disease"
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+              >
+                질병 관리
+              </NavLink>
             </li>
 
             {/* 자가진단 메뉴 */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/self-diagnosis" activeClassName="active">자가진단</NavLink>
+              <NavLink
+                to="/self-diagnosis"
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+              >
+                자가진단
+              </NavLink>
             </li>
           </ul>
 

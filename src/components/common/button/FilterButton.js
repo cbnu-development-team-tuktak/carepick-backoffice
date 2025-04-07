@@ -1,6 +1,8 @@
 // React 관련 import
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import { FaFilter } from 'react-icons/fa'; // 필터 아이콘
+import { FaMapMarkerAlt } from 'react-icons/fa'; // 위치 마커 아이콘
 
 /**
  * 재사용 가능한 필터 버튼 (모달 오픈 전용)
@@ -18,6 +20,14 @@ function FilterButton({
 }) {
   const [show, setShow] = useState(false);
 
+  // 버튼 레이블에 따라 아이콘을 선택
+  const renderIcon = () => {
+    if (buttonLabel === '위치 설정') {
+      return <FaMapMarkerAlt className="me-2" />; // 위치 설정일 경우 마커 아이콘
+    }
+    return <FaFilter className="me-2" />; // 기본 필터 아이콘
+  };
+
   return (
     <>
       {/* 필터 버튼 */}
@@ -26,7 +36,9 @@ function FilterButton({
         className="mb-3 ms-2"
         onClick={() => setShow(true)}
       >
-        {buttonLabel}
+        {/* 아이콘 선택 후 표시 */}
+        {renderIcon()}
+        {buttonLabel} {/* 매개변수로 받은 텍스트 표시 */}
       </Button>
 
       {/* 필터 설정 모달 */}

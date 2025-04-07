@@ -1,6 +1,3 @@
-// src/pages/HospitalPage.jsx
-
-// React 관련 import
 import React, { useState, useEffect } from 'react'; // 컴포넌트 상태 관리와 생명주기 처리용 훅
 import { useNavigate } from 'react-router-dom'; // 페이지 이동 처리를 위한 훅
 
@@ -13,12 +10,16 @@ import SearchBar from '../../components/common/input/SearchBar'; // 검색 바 �
 import SortButton from '../../components/common/button/SortButton'; // 정렬 버튼 컴포넌트
 import FilterButton from '../../components/common/button/FilterButton'; // 필터 버튼 컴포넌트
 import HospitalFilterModalContent from '../../components/hospital/HospitalFilterModalContent'; // 병원 필터 모달 내부 컴포넌트
+import LocationFilterModalContent from '../../components/hospital/LocationFilterModalContent'; // 위치 필터 모달 내부 컴포넌트
 
 // 병원 API 서비스 함수 import
 import { fetchHospitals } from '../../services/hospitalService'; // 서버에서 병원 목록을 가져오는 함수
 
 // 병원 API 응답을 DTO 형식으로 변환하는 함수
 import { fromHospitalApiResponse } from '../../dto/HospitalDetailsResponse'; // API 응답을 HospitalDetailsResponse 형태로 변환
+
+// Redux 관련 import
+import { useSelector } from 'react-redux'; // Redux 상태를 가져오는 훅
 
 function Hospital() {
   const [hospitals, setHospitals] = useState([]); // 병원 목록
@@ -32,6 +33,9 @@ function Hospital() {
   });
 
   const navigate = useNavigate(); // 페이지 이동용
+
+  // Redux에서 location 상태 가져오기
+  const location = useSelector((state) => state.location); // 현재 위치 정보
 
   // 컴포넌트 마운트 시 또는 페이지 변경 시 병원 목록 불러오기
   useEffect(() => {
@@ -88,11 +92,19 @@ function Hospital() {
           onSelect={setSortOption}
         />
 
-        {/* 필터 버튼 */}
-        <FilterButton modalTitle="병원 필터">
+        {/* 병원 필터 버튼 */}
+        <FilterButton buttonLabel="필터" modalTitle="병원 필터">
           <HospitalFilterModalContent
             filters={filters}
             onChange={setFilters}
+          />
+        </FilterButton>
+
+        {/* 위치 필터 버튼 추가 */}
+        <FilterButton buttonLabel="위치 설정" modalTitle="위치 설정">
+          <LocationFilterModalContent
+            filters={location} // 위치 상태를 필터로 전달
+            onClose={() => console.log('위치 필터 닫기')} // 위치 필터 닫기 처리
           />
         </FilterButton>
       </div>

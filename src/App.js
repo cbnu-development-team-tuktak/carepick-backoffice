@@ -5,7 +5,7 @@ import React from 'react'; // React 라이브러리
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // React Router 라이브러리 (라우팅 기능 제공)
 
 // 공통 컴포넌트 import
-import Navbar from './components/common/Navbar'; // 상단 네비게이션 바 컴포넌트 (앱 전체에서 공통으로 사용)
+import Navbar from './components/common/navigation/Navbar'; // 상단 네비게이션 바 컴포넌트 (앱 전체에서 공통으로 사용)
 
 // 페이지 컴포넌트 import
 import Home from './pages/Home'; // 홈 페이지 컴포넌트

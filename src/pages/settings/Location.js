@@ -1,12 +1,14 @@
-// pages/settings/Location.js
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux'; 
 import AddressSearchInput from '../../components/settings/AddressSearchInput';
 import PageHeader from '../../components/common/PageHeader';
+import { setLocation } from '../../store/locationSlice'; // setLocation 액션 import
 
 function Location() {
-  const [location, setLocation] = useState({ lat: 37.5665, lng: 126.9780 }); // 기본 서울
-  const mapRef = useRef(null);   // map 객체 저장
-  const markerRef = useRef(null); // marker 객체 저장
+  const dispatch = useDispatch(); // dispatch 함수 생성
+  const location = useSelector((state) => state.location); // Redux에서 위치 상태 가져오기
+  const mapRef = useRef(null);
+  const markerRef = useRef(null);
 
   // 지도 초기화
   useEffect(() => {
@@ -26,19 +28,25 @@ function Location() {
     return () => {
       marker.setMap(null); // 컴포넌트 언마운트 시 제거
     };
-  }, []);
+  }, [location]);
 
   // 주소 선택 시 호출
   const handleAddressSelect = ({ address, lat, lng }) => {
     const newLatLng = new window.naver.maps.LatLng(lat, lng);
-    setLocation({ lat, lng });
-  
+    
+    // Redux로 선택한 위치와 주소 업데이트
+    dispatch(setLocation({ lat, lng, address }));
+
     if (mapRef.current && markerRef.current) {
-      markerRef.current.setPosition(newLatLng);    // 마커 이동
-      mapRef.current.setCenter(newLatLng);         // ✅ 지도 중심 이동 ← 이게 꼭 필요
+      markerRef.current.setPosition(newLatLng); // 마커 이동
+      mapRef.current.setCenter(newLatLng); // 지도 중심 이동
     }
   };
-  
+
+  // 주소 변경 시 호출 (onChange)
+  const handleAddressChange = (newAddress) => {
+    dispatch(setLocation({ ...location, address: newAddress })); // 주소 변경 시 Redux 상태 업데이트
+  };
 
   const handleSaveLocation = () => {
     console.log('선택된 위치:', location);
@@ -52,9 +60,12 @@ function Location() {
         title="위치 설정"
         description="주소를 검색하여 사용자의 위치를 설정합니다."
       />
-
       {/* 입력창 */}
-      <AddressSearchInput onSelect={handleAddressSelect} />
+      <AddressSearchInput 
+        value={location.address} // 기본값으로 주소 설정
+        onChange={handleAddressChange} // 주소 변경 시 호출되는 onChange 함수 전달
+        onSelect={handleAddressSelect} 
+      />
 
       {/* 지도 */}
       <div id="map" style={{ width: '100%', height: '400px', marginTop: '1rem' }}></div>
