@@ -1,6 +1,6 @@
 // React 및 상태 관리 관련 import
 import React, { useState, useEffect } from 'react'; // 컴포넌트 상태 관리와 생명주기 처리용 훅
-import { useSelector, useDispatch } from 'react-redux'; // Redux 상태 접근 및 액션 디스패치
+import { useDispatch } from 'react-redux'; // Redux 상태 접근 및 액션 디스패치
 
 // BootStrap 컴포넌트 관련 import
 import { Form, Row, Col, Spinner, Button } from 'react-bootstrap'; // UI 컴포넌트 import
@@ -24,9 +24,6 @@ function DistrictSelectionTab({
   const [selectedCity, setSelectedCity] = useState(''); // 선택한 시도
   const [selectedDistrict, setSelectedDistrict] = useState(''); // 선택한 읍면동
   const [addressSearchResult, setAddressSearchResult] = useState(null); // 주소 검색 결과
-  const [coordinates, setCoordinates] = useState(null); // 좌표 상태
-
-  const location = useSelector((state) => state.location); // 사용자 위치 상태
 
   // 시·도 목록 불러오기
   useEffect(() => {

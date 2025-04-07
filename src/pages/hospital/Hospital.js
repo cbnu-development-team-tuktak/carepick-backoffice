@@ -107,6 +107,8 @@ function Hospital() {
             onClose={() => console.log('위치 필터 닫기')} // 위치 필터 닫기 처리
           />
         </FilterButton>
+
+        
       </div>
 
       {/* 병원 카드 리스트 영역 */}
