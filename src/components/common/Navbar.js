@@ -44,6 +44,8 @@ function Navbar() {
                 관리
               </a>
               <ul className="dropdown-menu">
+              <li><NavLink className="dropdown-item" to="/hospital">병원 관리</NavLink></li>
+              <li><NavLink className="dropdown-item" to="/doctor">의사 관리</NavLink></li>
                 <li><NavLink className="dropdown-item" to="/symptom">증상 관리</NavLink></li>
                 <li><NavLink className="dropdown-item" to="/disease">질병 관리</NavLink></li>
               </ul>
