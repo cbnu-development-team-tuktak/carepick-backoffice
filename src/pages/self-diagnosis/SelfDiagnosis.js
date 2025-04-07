@@ -40,6 +40,9 @@ function SelfDiagnosis() {
   // 백엔드에서 추천받은 '함께 나타날 수 있는 증상' 리스트
   const [suggestedSymptoms, setSuggestedSymptoms] = useState([]);
 
+  // 백엔드에서 추천받은 '추천 진료과' 리스트
+  const [suggestedSpecialties, setSuggestedSpecialties] = useState([]);
+
   // 사용자가 증상을 입력하고 제출할 때 호출
   const handleSubmit = async (text) => {
     const newUserMessage = { // 사용자 메시지
@@ -77,6 +80,9 @@ function SelfDiagnosis() {
       // 추천 증상(함께 나타날 수 있는 증상) 목록 업데이트
       setSuggestedSymptoms(response.suggestedSymptoms || []);
 
+      // 추천 진료과 목록 업데이트 (여기 추가!)
+      setSuggestedSpecialties(response.suggestedSpecialties || []);
+
       // 응답 메시지에서 질병 라인 개수 계산 (예: "- 감기" 형태로 시작하는 줄 개수)
       const diseaseLines = (response.message.match(/^-/gm) || []).length;
 
@@ -105,8 +111,19 @@ function SelfDiagnosis() {
 
         // 전체 텍스트 출력이 끝나면 타이핑 중단 및 로딩 해제
         if (currentChar >= messageText.length) {
-          clearInterval(typingInterval); // 타이핑 종료
+          clearInterval(typingInterval); // 타이핑 애니메이션 중단
           setIsLoading(false); // 로딩 상태 해제
+
+          // 메시지 2개 추가: GPT + 사용자형 진료과 선택 메시지
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: loadingId + 1, // 고유 ID 부여
+              role: 'user', // 사용자 메시지로 지정
+              content: '', // 텍스트 없이 버튼만 출력
+              suggestedSpecialties: response.suggestedSpecialties || [], // 추천 진료과 배열
+            },
+          ]);
         }
       }, 40); // 40ms마다 한 글자씩 출력
     } catch (error) { // 서버 요청 중 오류가 발생한 경우
@@ -176,7 +193,10 @@ function SelfDiagnosis() {
         />
 
         {/* 사용자 및 GPT의 대화 메시지 영역 */}
-        <SelfDiagnosisMessages messages={messages} />
+        <SelfDiagnosisMessages 
+          messages={messages} // 현재까지의 모든 메시지 목록 (사용자 입력 + GPT 응답 + 진료과 버튼 등 포함)
+          setMessages={setMessages} // 메시지 상태 업데이트 함수
+        />
       </div>
 
       {/* 하단 입력창 컴포넌트 (고정 위치) */}
