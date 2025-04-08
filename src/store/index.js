@@ -7,6 +7,8 @@ import doctorsReducer from './doctorSlice'; // 의사 관련 데이터를 관리
 import diseasesReducer from './diseaseSlice'; // 질병 관련 데이터를 관리하는 리듀서
 import symptomsReducer from './symptomSlice'; // 증상 관련 데이터를 관리하는 리듀서
 import locationReducer from './locationSlice';  // 위치 정보 데이터를 관리하는 리듀서
+
+import hospitalFilterReducer from './hospitalFilterSlice';  // 병원 필터 상태를 관리하는 리듀서
 // store 설정
 const store = configureStore({
   reducer: {
@@ -14,7 +16,8 @@ const store = configureStore({
     doctors: doctorsReducer, // 의사 관련 데이터를 관리하는 리듀서
     diseases: diseasesReducer, // 질병 관련 데이터를 관리하는 리듀서
     symptoms: symptomsReducer, // 증상 관련 데이터를 관리하는 리듀서
-    location: locationReducer // 위치 정보 데이터를 관리하는 리듀서
+    location: locationReducer, // 위치 정보 데이터를 관리하는 리듀서
+    hospitalFilter: hospitalFilterReducer, // 병원 필터 상태를 관리하는 리듀서
   },
 });
 
