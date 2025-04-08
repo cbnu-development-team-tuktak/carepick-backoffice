@@ -131,11 +131,19 @@ function Hospital() {
 
       {/* 병원 카드 리스트 영역 */}
       <div className="row">
-        {filteredHospitals.map((hospital) => (
-          <div key={hospital.id} className="col-md-4 mb-4">
-            <HospitalCard hospital={hospital} />
+        {filteredHospitals.length === 0 ? (
+          // 검색 결과 없음 메시지
+          <div className="col-12 text-center mt-5">
+            <p className="text-muted fs-5">검색 결과가 없습니다.</p>
           </div>
-        ))}
+        ) : (
+          // 병원 카드 목록
+          filteredHospitals.map((hospital) => (
+            <div key={hospital.id} className="col-md-4 mb-4">
+              <HospitalCard hospital={hospital} />
+            </div>
+          ))
+        )}
       </div>
 
       {/* 페이지네이션 */}
