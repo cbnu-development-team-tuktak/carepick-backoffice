@@ -1,61 +1,61 @@
-import React, { useState, useEffect } from 'react'; // 컴포넌트 상태 관리와 생명주기 처리용 훅
+import React, { useEffect, useState } from 'react'; // 컴포넌트 상태 관리와 생명주기 처리용 훅
 import { useNavigate } from 'react-router-dom'; // 페이지 이동 처리를 위한 훅
 
 // 컴포넌트 관련 import
-import PageHeader from '../../components/common/PageHeader'; // 상단 제목 및 설명 표시용 공통 컴포넌트
-import FloatingButton from '../../components/common/button/FloatingButton'; // 오른쪽 하단 고정 버튼 (추가/수정 등)
-import HospitalCard from '../../components/hospital/HospitalCard'; // 병원 정보를 카드 형태로 보여주는 컴포넌트
-import Pagination from '../../components/common/Pagination'; // 병원 목록을 페이지 단위로 나눠 보여주는 컴포넌트
-import SearchBar from '../../components/common/input/SearchBar'; // 검색 바 컴포넌트
-import SortButton from '../../components/common/button/SortButton'; // 정렬 버튼 컴포넌트
-import FilterButton from '../../components/common/button/FilterButton'; // 필터 버튼 컴포넌트
-import HospitalFilterModalContent from '../../components/hospital/HospitalFilterModalContent'; // 병원 필터 모달 내부 컴포넌트
-import LocationFilterModalContent from '../../components/hospital/LocationFilterModalContent'; // 위치 필터 모달 내부 컴포넌트
+import PageHeader from '../../components/common/PageHeader';
+import FloatingButton from '../../components/common/button/FloatingButton';
+import HospitalCard from '../../components/hospital/HospitalCard';
+import Pagination from '../../components/common/Pagination';
+import SearchBar from '../../components/common/input/SearchBar';
+import SortButton from '../../components/common/button/SortButton';
+import FilterButton from '../../components/common/button/FilterButton';
+import HospitalFilterModalContent from '../../components/hospital/HospitalFilterModalContent';
+import LocationFilterModalContent from '../../components/hospital/LocationFilterModalContent';
 
 // 병원 API 서비스 함수 import
-import {
-  fetchHospitalsByFilters
-} from '../../services/hospitalService'; // 병원 목록을 필터 기준에 따라 가져오는 함수
+import { fetchHospitalsByFilters } from '../../services/hospitalService';
 
 // 병원 API 응답을 DTO 형식으로 변환하는 함수
-import { fromHospitalApiResponse } from '../../dto/HospitalDetailsResponse'; // API 응답을 HospitalDetailsResponse 형태로 변환
+import { fromHospitalApiResponse } from '../../dto/HospitalDetailsResponse';
 
 // Redux 관련 import
-import { useSelector } from 'react-redux'; // Redux 상태를 가져오는 훅
+import { useDispatch, useSelector } from 'react-redux'; // Redux 상태 및 액션 사용
+import {
+  setSortOption,
+  setDistance,
+  setSpecialties
+} from '../../store/hospitalFilterSlice'; // 병원 필터 slice에서 액션 불러오기
 
 function Hospital() {
   const [hospitals, setHospitals] = useState([]); // 병원 목록
   const [page, setPage] = useState(0); // 현재 페이지
   const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
   const [searchTerm, setSearchTerm] = useState(''); // 검색어
-  const [sortOption, setSortOption] = useState('거리순'); // 정렬 기준
-  const [filters, setFilters] = useState({ // 필터 상태
-    distance: 1, // 거리 범위 (단위: km)
-    specialties: [], // 선택된 진료과 배열 
-  });
 
   const navigate = useNavigate(); // 페이지 이동용
+  const dispatch = useDispatch(); // Redux 액션 디스패처
 
-  // Redux에서 location 상태 가져오기
+  // Redux에서 상태 가져오기
   const location = useSelector((state) => state.location); // 현재 위치 정보
+  const sortOption = useSelector((state) => state.hospitalFilter.sortOption); // 정렬 기준
+  const filters = useSelector((state) => state.hospitalFilter.filters); // 필터 상태
 
-  // 컴포넌트 마운트 시 또는 페이지 변경/정렬 변경/위치 변경/필터 변경 시 병원 목록 불러오기
+  // 컴포넌트 마운트 시 또는 페이지/정렬/위치/필터 변경 시 병원 목록 불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const distanceToSend =
-          filters.distance >= 10 ? null : filters.distance; // 5 이상이면 제한 없음 (null 처리)
-    
+        const distanceToSend = filters.distance >= 10 ? null : filters.distance;
+
         const data = await fetchHospitalsByFilters({
           lat: location?.lat,
           lng: location?.lng,
-          distance: distanceToSend, // ← 여기 중요
+          distance: distanceToSend,
           specialties: filters.specialties,
           sortBy: sortOption === '이름순' ? 'name' : 'distance',
           page,
           size: 20
         });
-    
+
         console.log('📦 받아온 병원 데이터:', data);
         const processed = data?.content?.map(fromHospitalApiResponse) || [];
         setHospitals(processed);
@@ -75,7 +75,7 @@ function Hospital() {
   // 병원 검색 + 필터 + 정렬 처리
   const filteredHospitals = hospitals
     .filter((hospital) => hospital.name.includes(searchTerm)) // 검색어 필터링
-    .sort((a, b) => { // 정렬 조건 적용 (이름순은 클라이언트에서 한 번 더 정렬)
+    .sort((a, b) => {
       if (sortOption === '이름순') return a.name.localeCompare(b.name);
       if (sortOption === '거리순') return (a.distance || 0) - (b.distance || 0);
       return 0;
@@ -100,22 +100,25 @@ function Hospital() {
         <SortButton
           current={sortOption}
           options={sortOptions}
-          onSelect={setSortOption}
+          onSelect={(option) => dispatch(setSortOption(option))} // Redux 상태로 정렬 변경
         />
 
         {/* 병원 필터 버튼 */}
         <FilterButton buttonLabel="필터" modalTitle="병원 필터">
           <HospitalFilterModalContent
             filters={filters}
-            onChange={setFilters}
+            onChange={({ distance, specialties }) => {
+              dispatch(setDistance(distance));
+              dispatch(setSpecialties(specialties));
+            }}
           />
         </FilterButton>
 
-        {/* 위치 필터 버튼 추가 */}
+        {/* 위치 필터 버튼 */}
         <FilterButton buttonLabel="위치 설정" modalTitle="위치 설정">
           <LocationFilterModalContent
-            filters={location} // 위치 상태를 필터로 전달
-            onClose={() => console.log('위치 필터 닫기')} // 위치 필터 닫기 처리
+            filters={location}
+            onClose={() => console.log('위치 필터 닫기')}
           />
         </FilterButton>
       </div>
