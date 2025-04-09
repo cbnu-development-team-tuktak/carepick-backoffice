@@ -2,118 +2,144 @@
 import React, { useEffect, useState } from 'react'; // 컴포넌트 생성 및 상태, 생명주기 훅 사용
 import { useSelector } from 'react-redux'; // Redux 전역 상태에서 값 가져오기
 
+// 아이콘 import (react-icons/fa)
+import { FaStethoscope, FaVirus, FaCommentDots } from 'react-icons/fa'; // 청진기, 바이러스, 말풍선 아이콘
+
+// 추천 검색어 패널 import
+import SuggestedKeywordPanel from './panel/SuggestedKeywordPanel'; // 추천 검색어 패널 컴포넌트
+
 function SelfDiagnosisInput({ 
   onSubmit, // 입력 제출 시 실행되는 콜백 함수
   disabled, // 입력창 활성화 여부 (로딩 중 비활성화)
   value = '', // 외부에서 제어하는 입력창 기본값
-  onChange // 입력값이 변경될 때 실행되는 콜백 함수
+  onChange, // 입력값이 변경될 때 실행되는 콜백 함수
+  mode, // 입력 모드 상태 ("증상" 또는 "질병" 또는 "자연어")
+  setMode // 입력 모드 변경 함수 (부모 상태 제어용)
 }) {
   const [input, setInput] = useState(value); // 입력창 상태 관리
-  const [filteredSymptoms, setFilteredSymptoms] = useState([]); // 자동완성 추천 증상 목록
+  const [filteredItems, setFilteredItems] = useState([]); // 추천 검색어 목록
 
-  // Redux 전역 상태에서 증상 목록을 가져옴
-  const symptoms = useSelector((state) => state.symptoms.symptoms);
+  const symptoms = useSelector((state) => state.symptoms.symptoms); // 증상 목록 (전역 상태)
+  const diseases = useSelector((state) => state.diseases.diseases); // 질병 목록 (전역 상태)
 
-  // 현재 입력 중인 텍스트에서 마지막 큰따옴표 안에 있는 문자열을 추출
-  const getCurrentQuotedKeyword = (text) => {
-    const match = text.match(/"([^"]*)$/); // 마지막 큰따옴표 이후 문자 추출
-    return match ? match[1] : '';
+  // 입력된 텍스트에서 마지막 콤마 이후 단어 추출
+  const getCurrentKeyword = (text) => {
+    const segments = text.split(','); // 콤마로 입력을 분리
+    return segments[segments.length - 1].trim(); // 마지막 입력된 키워드만 추출 (공백 제거)
   };
 
-  // 현재 입력 중인 따옴표 안 키워드를 실시간 추적
-  const currentKeyword = getCurrentQuotedKeyword(input);
+  const currentKeyword = getCurrentKeyword(input); // 현재 입력 중인 키워드
 
+  // 현재 모드에 따라 추천 대상 리스트 선택
+  const candidates = mode === '증상' ? symptoms : mode === '질병' ? diseases : [];
+
+  // 입력이 바뀔 때마다 추천 키워드 갱신
   useEffect(() => {
-    // currentKeyword가 존재하고, 증상 목록(symptoms)이 비어있지 않은 경우에만 필터링 수행
-    if (currentKeyword.length > 0 && symptoms.length > 0) {
-      const filtered = symptoms
-        // 현재 입력 중인 키워드로 시작하는 증상만 필터링
-        .filter((s) => s.name.startsWith(currentKeyword))
-        // 최대 5개까지만 추천 증상으로 표시
-        .slice(0, 5);
-      setFilteredSymptoms(filtered); // 필터링된 증상 목록을 상태로 설정
-    } else {
-      // 키워드가 없거나 증상 목록이 비어 있으면 추천 목록 초기화
-      setFilteredSymptoms([]);
-    }
-  }, [input, symptoms]); // input 또는 symptoms가 변경될 때마다 실행됨
+    // 자연어 모드일 경우 추천 키워드 기능 비활성화
+    if (mode === '자연어') return setFilteredItems([]);
 
-  // 입력창에서 Enter를 눌렀을 때 실행
+    // 현재 키워드와 후보군이 존재할 경우 필터링 수행
+    if (currentKeyword.length > 0 && candidates.length > 0) {
+      const filtered = candidates
+        .filter((item) => item.name.startsWith(currentKeyword)) // 현재 키워드로 시작하는 항목만 추출
+        .slice(0, 10); // 최대 10개까지만 제한
+      setFilteredItems(filtered); // 필터링된 결과 저장
+    } else {
+      setFilteredItems([]); // 조건에 맞지 않으면 추천 키워드 비움
+    }
+  }, [input, symptoms, diseases, mode]); // input이나 후보군, 모드가 변경될 때마다 실행
+
+  // 입력 제출 처리
   const handleSend = () => {
-    // 입력값이 비어 있거나, 입력 비활성화 상태이면 아무 동작도 하지 않음
+    // 입력값이 비어 있거나 버튼이 비활성화된 경우 전송 중단
     if (input.trim() === '' || disabled) return;
-    // 부모 컴포넌트로 입력값 전달 (진단 요청)
-    onSubmit(input);
+
+    // 상위 컴포넌트로 입력 데이터(mode와 함께) 전달
+    onSubmit({ mode, value: input });
+
     // 입력창 초기화
     setInput('');
-    // 추천 증상 목록 초기화
-    setFilteredSymptoms([]);
+
+    // 추천 키워드 초기화
+    setFilteredItems([]);
   };
 
-  // 입력창 내용이 변경될 때 실행
-  const handleInputChange = (e) => { 
-    // 입력값 상태로 저장
+  // 입력창 텍스트 변경 시 처리
+  const handleInputChange = (e) => {
+    // 입력 상태 업데이트
     setInput(e.target.value);
-    // 외부에서 onChange 함수가 존재한다면 호출하여 상태 동기화
+
+    // 외부에서 전달된 onChange 함수가 있을 경우 호출
     onChange?.(e.target.value);
   };
 
-  // 추천된 증상 배지를 클릭했을 때 실행
+  // 추천 키워드 클릭 시 마지막 항목 교체
   const handleSelectSuggestion = (name) => {
-    // 현재 입력 중인 큰따옴표 안 텍스트를 선택한 증상으로 교체
-    const newText = input.replace(/"[^"]*$/, `"${name}" `);
-    // 새 입력창으로 설정
-    setInput(newText);
-    // 추천 목록 초기화
-    setFilteredSymptoms([]);
-    // 외부에 변경된 입력값 전달
-    onChange?.(newText);
+    // 입력값을 콤마로 분리하여 배열로 만듦
+    const segments = input.split(',');
+
+    // 마지막 요소(현재 작성 중인 키워드)를 선택된 추천 키워드로 교체
+    segments[segments.length - 1] = ` ${name}`;
+
+    // 다시 문자열을 합치고, 뒤에 콤마+공백 추가
+    const newText = segments.join(',').trim() + ', ';
+
+    setInput(newText); // 입력값 업데이트
+    setFilteredItems([]); // 추천 키워드 리스트 초기화
+    onChange?.(newText); // 외부에 변경된 입력값 전달
+  };
+
+  // 모드 순환: 증상 -> 질병 -> 자연어 -> 증상 ...
+  const handleModeSwitch = () => {
+    setMode((prev) => {
+      if (prev === '증상') return '질병';
+      if (prev === '질병') return '자연어';
+      return '증상';
+    });
   };
 
   return (
     <div className="p-2 border-top shadow mx-auto input-container">
-      {/* 연관 검색어 추천 */}
-      {currentKeyword && ( // 현재 입력 중인 키워드가 있을 때만 추천 증상 표시
-        <div className="mt-2 bg-light border rounded p-2">
-          {symptoms.length === 0 ? ( // 증상 정보가 아직 로딩되지 않은 경우
-            <div className="d-flex align-items-center gap-2">
-              {/* 로딩 스피너 */}
-              <div className="spinner-border spinner-border-sm text-secondary" role="status" />
-              <span className="text-secondary">증상 정보 로드 중입니다...</span>
-            </div>
-          ) : filteredSymptoms.length > 0 ? ( // 필터링된 증상이 있는 경우
-            <>
-              <strong>추천 증상</strong> {/* 추천 증상 표시 */}
-              <div className="mt-1 d-flex flex-wrap gap-2">
-                {filteredSymptoms.map((s) => ( // 필터링된 증상 목록을 순차적으로 표시
-                  <span
-                    key={s.id} // 고유 키
-                    className="badge bg-secondary" // Bootstrap 배지 스타일 적용
-                    style={{ cursor: 'pointer' }} // 클릭 가능한 느낌을 주기 위한 커서 스타일 
-                    onClick={() => handleSelectSuggestion(s.name)} // 증상 클릭 시 해당 증상 선택
-                  >
-                    "{s.name}" {/* 추천 증상 이름 표시 */}
-                  </span>
-                ))}
-              </div>
-            </>
-          ) : ( // 일치하는 증상이 없는 경우
-            // 일치하는 증상이 없다는 메시지 표시
-            <div className="text-muted">일치하는 증상이 없습니다.</div>
-          )}
-        </div>
-      )}
-
-      {/* 입력창 */}
-      <input
-        type="text" // 입력창 타입 설정
-        className="form-control" // BootStrap 스타일 클래스 적용
-        placeholder={`현재 발생한 증상을 입력해주세요. 예: "두통" "눈이 침침함"`} // 입력창에 보여줄 기본 안내 텍스트
-        value={input} // 입력창 상태와 바인딩
-        onChange={handleInputChange} // 입력값 변경 시 호출되는 함수
-        onKeyDown={(e) => e.key === 'Enter' && handleSend()} // Enter 키가 눌리면 handleSend 함수 실행
-        disabled={disabled} // disabled 상태일 경우 입력 불가
+      {/* 추천 검색어 패널 */}
+      <SuggestedKeywordPanel
+        mode={mode} // 현재 입력 모드
+        keyword={currentKeyword} // 현재 입력 중인 키워드 (콤마 뒤 단어)
+        sourceItems={candidates} // 전체 후보 키워드 목록 
+        suggestedKeywords={filteredItems} // 필터링된 추천 키워드 목록
+        onSelectKeyword={handleSelectSuggestion} // 추천 키워드 클릭 시 처리 함수
       />
+
+      {/* 입력창 + 모드 뱃지 */}
+      <div className="input-group">
+        {/* 현재 모드에 따라 아이콘과 텍스트 변경 */}
+        <span className="input-group-text bg-light fw-bold d-flex align-items-center gap-2">
+          {mode === '증상' ? <FaStethoscope /> : mode === '질병' ? <FaVirus /> : <FaCommentDots />}
+          {mode} {/* 현재 모드 표시: 증상 / 질병 / 자연어 */}
+        </span>
+
+        {/* 사용자 입력창 */}
+        <input
+          type="text"
+          className="form-control"
+          placeholder={
+            mode === '증상'
+              ? '예: 기침, 콧물, 발열' // 증상 모드일 때 예시
+              : mode === '질병'
+              ? '예: 감기, 비염, 대상포진' // 질병 모드일 때 예시
+              : '예: 어지럽고 속이 메스꺼워요' // 자연어 모드일 때 예시
+          }
+          value={input} // 현재 입력 값
+          onChange={handleInputChange} // 입력 변경 시 상태 
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleSend(); // Enter 키 입력 시 전송
+            else if (e.key === '/' && !e.shiftKey) {
+              e.preventDefault(); // '/' 키로 모드 순환 
+              handleModeSwitch(); // 모드 변경 함수 호출
+            }
+          }}
+          disabled={disabled} // 로딩 중일 때 입력 비활성화
+        />
+      </div>
     </div>
   );
 }
