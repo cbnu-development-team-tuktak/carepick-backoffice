@@ -23,7 +23,9 @@ import DiseaseDetail from './pages/disease/DiseaseDetail'; // 질병 상세 페�
 import Symptom from './pages/symptom/Symptom'; // 증상 목록 페이지 컴포넌트
 import SymptomDetail from './pages/symptom/SymptomDetail'; // 증상 상세 페이지 컴포넌트
 
-import SelfDiagnosis from './pages/self-diagnosis/SelfDiagnosis'; // 자가진단 페이지 테스트 컴포넌트
+import SelfDiagnosis from './pages/self-diagnosis/SelfDiagnosis'; // 자가진단 테스트 페이지 컴포넌트
+
+import Crawling from './pages/crawling/Crawling'; // 크롤링 페이지 컴포넌트
 
 import Settings from './pages/settings/Settings'; // 세팅 페이지 컴포넌트
 import Location from './pages/settings/Location'; // 세팅 페이지 컴포넌트
@@ -69,6 +71,8 @@ function App() {
           {/* 자가진단 페이지 */}
           <Route path="/self-diagnosis" element={<SelfDiagnosis />} />
 
+          {/* 크롤링 페이지 */}
+          <Route path="/crawling" element={<Crawling />} />
           {/* 세팅 페이지 */}
           <Route path="/settings" element={<Settings />} />
 

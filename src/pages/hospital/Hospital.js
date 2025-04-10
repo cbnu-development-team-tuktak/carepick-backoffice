@@ -11,8 +11,8 @@ import FilterButton from '../../components/common/button/FilterButton'; // 필�
 
 // 병원 관련 import
 import HospitalCard from '../../components/hospital/HospitalCard'; // 병원 정보를 카드 형태로 보여주는 컴포넌트
-import HospitalFilterModalContent from '../../components/hospital/HospitalFilterModalContent'; // 진료과/명의 여부 등의 병원 필터 모달 내용
-import LocationFilterModalContent from '../../components/hospital/LocationFilterModalContent'; // 위치 기반 병원 필터 모달 내용
+import HospitalFilterModalContent from '../../components/hospital/filter/HospitalFilterModalContent'; // 진료과/명의 여부 등의 병원 필터 모달 내용
+import LocationFilterModalContent from '../../components/hospital/filter/LocationFilterModalContent'; // 위치 기반 병원 필터 모달 내용
 
 // 병원 API 서비스 함수 import
 import { fetchHospitalsByFilters } from '../../services/hospitalService'; // 필터 조건에 따라 병원 목록을 가져오는 API 요청

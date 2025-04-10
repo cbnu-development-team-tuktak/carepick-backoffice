@@ -4,8 +4,9 @@ import { Button } from 'react-bootstrap'; // Bootstrap 버튼 컴포넌트
 
 // 컴포넌트 import
 import DistanceSlider from './DistanceSlider'; // 거리 필터 슬라이더
-import SpecialtySelector from './SpecialtySelector'; // 진료과 선택 필터
-import SearchBar from '../common/input/SearchBar'; // 질병 검색 입력창
+import OperatingHoursRange from './OperatingHoursRange'; // 진료 시간 범위 설정
+import SpecialtySelector from '../SpecialtySelector'; // 진료과 선택 필터
+import SearchBar from '../../common/input/SearchBar'; // 질병 검색 입력창
 import ExtraOptionsToggle from './ExtraOptionsToggle'; // 명의/야간진료 여부 등 토글 필터
 
 function HospitalFilterModalContent({ 
@@ -47,6 +48,8 @@ function HospitalFilterModalContent({
         onChange={(updated) => onChange({ ...filters, specialties: updated })} // 진료과 변경 시 필터 상태 갱신
       />
 
+      {/* 진료 시간 범위 설정 */}
+      <OperatingHoursRange />
       {/* 질병 검색 라벨 */}
       <label className="form-label">질병 선택</label>
 

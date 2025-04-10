@@ -5,7 +5,6 @@ import React from 'react'; // React 라이브러리 임포트
 // 커스텀 컴포넌트 관련 import
 import InputField from '../common/input/InputField'; // 기본 입력 필드 컴포넌트
 import InputList from '../common/input/InputList'; // 리스트 입력 필드 컴포넌트
-import OperatingHoursField from './OperatingHoursField'; // 운영시간 필드
 import InputGroupField from '../common/input/InputGroup'; // 좌우 입력 필드 컴포넌트
 
 const HospitalForm = ({
@@ -51,9 +50,6 @@ const HospitalForm = ({
       <InputField label="전화번호" value={hospital?.phoneNumber || ''} onChange={(e) => handleInputChange(e, 'phoneNumber')} />
       <InputField label="홈페이지" value={hospital?.homepage || ''} onChange={(e) => handleInputChange(e, 'homepage')} />
       <InputField label="주소" value={hospital?.address || ''} onChange={(e) => handleInputChange(e, 'address')} />
-
-      {/* 운영 시간 */}
-      <OperatingHoursField label="운영 시간" value={hospital?.operatingHours || ''} onChange={(e) => handleInputChange(e, 'operatingHours')} />
 
       <InputField label="외부 URL" value={hospital?.url || ''} onChange={(e) => handleInputChange(e, 'url')} />
 

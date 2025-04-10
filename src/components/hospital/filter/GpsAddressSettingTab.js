@@ -3,10 +3,10 @@ import React from 'react'; // React 라이브러리 import
 import { useDispatch, useSelector } from 'react-redux'; // Redux 상태 관리 및 디스패치 기능 제공
 
 // 컴포넌트 관련 import 
-import AddressSearchInput from '../../components/settings/AddressSearchInput'; // 주소 검색 입력 컴포넌트 import
+import AddressSearchInput from '../../settings/AddressSearchInput'; // 주소 검색 입력 컴포넌트 import
 
 // Redux 액션 관련 import 
-import { setLocation } from '../../store/locationSlice'; // location 저장 액션 import 
+import { setLocation } from '../../../store/locationSlice'; // location 저장 액션 import 
 
 // UI 및 컴포넌트 관련 import 
 import { Button } from 'react-bootstrap'; // 버튼 컴포넌트 import 

@@ -6,11 +6,11 @@ import { useDispatch } from 'react-redux'; // Redux 상태 접근 및 액션 디
 import { Form, Row, Col, Spinner, Button } from 'react-bootstrap'; // UI 컴포넌트 import
 
 // 서비스 관련 import
-import { fetchSidoNames, fetchDistrictsByCity } from '../../services/administrativeRegionsService'; // 행정구역 API 서비스
-import { getCoordinatesByAddress } from '../../services/geolocationService';
+import { fetchSidoNames, fetchDistrictsByCity } from '../../../services/administrativeRegionsService'; // 행정구역 API 서비스
+import { getCoordinatesByAddress } from '../../../services/geolocationService';
 
 // Redux 액션 import
-import { setLocation } from '../../store/locationSlice'; // location 저장 액션
+import { setLocation } from '../../../store/locationSlice'; // location 저장 액션
 
 function DistrictSelectionTab({ 
   onClose // 모달 닫기 함수
