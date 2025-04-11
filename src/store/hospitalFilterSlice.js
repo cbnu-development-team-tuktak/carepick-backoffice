@@ -10,8 +10,8 @@ const initialState = {
     distance: 10, // 거리 범위 (단위: km)
     specialties: [], // 선택된 진료과 배열
     selectedDays: [], // 선택된 요일
-    startTime: '', // 시작 시간 (HH:mm)
-    endTime: '', // 종료 시간 (HH:mm)
+    startTime: '09:00', // 시작 시간 (HH:mm)
+    endTime: '18:00', // 종료 시간 (HH:mm)
     duration: '', // 시간 범위 (분 단위)
   },
 };

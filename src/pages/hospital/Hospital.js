@@ -10,9 +10,9 @@ import SortButton from '../../components/common/button/SortButton'; // 정렬 �
 import FilterButton from '../../components/common/button/FilterButton'; // 필터 모달 오픈 버튼
 
 // 병원 관련 import
-import HospitalCard from '../../components/hospital/HospitalCard'; // 병원 정보를 카드 형태로 보여주는 컴포넌트
-import HospitalFilterModalContent from '../../components/hospital/filter/HospitalFilterModalContent'; // 진료과/명의 여부 등의 병원 필터 모달 내용
-import LocationFilterModalContent from '../../components/hospital/filter/LocationFilterModalContent'; // 위치 기반 병원 필터 모달 내용
+import HospitalCard from '../../components/hospital/hospital/HospitalCard'; // 병원 정보를 카드 형태로 보여주는 컴포넌트
+import HospitalFilterModalContent from '../../components/hospital/hospital/filter/HospitalFilterModalContent'; // 진료과/명의 여부 등의 병원 필터 모달 내용
+import LocationFilterModalContent from '../../components/hospital/hospital/filter/LocationFilterModalContent'; // 위치 기반 병원 필터 모달 내용
 
 // 병원 API 서비스 함수 import
 import { fetchHospitalsByFilters } from '../../services/hospitalService'; // 필터 조건에 따라 병원 목록을 가져오는 API 요청
@@ -39,7 +39,7 @@ function Hospital() {
 
   // Redux에서 상태 가져오기
   const location = useSelector((state) => state.location); // 현재 위치 정보
-  const sortOption = useSelector((state) => state.hospitalFilter.sortOption); // 정렬 기준
+  const sortOption = useSelector((state) =>  state.hospitalFilter.sortOption); // 정렬 기준
   const filters = useSelector((state) => state.hospitalFilter.filters); // 필터 상태
 
   // 컴포넌트 마운트 시 또는 페이지/정렬/위치/필터 변경 시 병원 목록 불러오기
@@ -56,10 +56,14 @@ function Hospital() {
           lng: location?.lng, // 현재 선택된 경도
           distance: distanceToSend, // 설정된 거리 필터 값
           specialties: filters.specialties, // 선택된 진료과 필터
-          sortBy: sortOption === '이름순' ? 'name' : 'distance', // 정렬 기준 (이름 또는 거리순)
+          selectedDays: filters.selectedDays, // 선택된 요일 필터
+          startTime: filters.startTime, // 시작 시간 필터
+          endTime: filters.endTime, // 종료 시간 필터
+          sortBy: sortOption === '이름순' ? 'name' : 'distance', // 정렬 기준
           page, // 현재 페이지 번호
           size: 20 // 한 페이지당 병원 수 
         });
+
         
         // API 응답 데이터를 HospitalCard용 DTO 형식으로 변환 
         const processed = data?.content?.map(fromHospitalApiResponse) || [];
@@ -142,7 +146,7 @@ function Hospital() {
 
         {/* 위치 필터 버튼 */}
         <FilterButton
-          buttonLabel="위치 설정" // 버튼에 표시될 텍스트
+          buttonLabel={`위치 설정: ${location.address}`} // 버튼에 표시될 텍스트
           modalTitle="위치 설정" // 모달 상단 제목
         >
           {/* 모달 내부에 표시될 위치 설정 콘텐츠 */}

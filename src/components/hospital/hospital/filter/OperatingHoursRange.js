@@ -8,7 +8,7 @@ import {
   setStartTime,
   setEndTime,
   setDuration,
-} from '../../../store/hospitalFilterSlice';
+} from '../../../../store/hospitalFilterSlice';
 
 // 컴포넌트 import
 import DaySelection from './DaySelection'; // 요일 선택 컴포넌트 
@@ -38,7 +38,8 @@ const OperatingHoursRange = () => {
 
   // startTime 또는 duration이 변경될 때마다 종료 시간을 자동 계산하는 useEffect
   useEffect(() => {
-    if (startTime && duration) {
+    if (!duration) return
+    if (startTime) {
       // 시작 시간을 ':' 기준으로 시(hour)와 분(minute)으로 분리
       const [hour, minute] = startTime.split(':').map(Number);
 

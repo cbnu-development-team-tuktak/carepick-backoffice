@@ -1,12 +1,13 @@
 // src/components/hospital/HospitalForm.jsx
+
 // React 관련 import
-import React from 'react'; // React 라이브러리 임포트
-
+import React, { useState } from 'react'; // React 라이브러리 임포트
+import { Carousel } from 'react-bootstrap'; // 부트스트랩 캐러셀 컴포넌트
 // 커스텀 컴포넌트 관련 import
-import InputField from '../common/input/InputField'; // 기본 입력 필드 컴포넌트
-import InputList from '../common/input/InputList'; // 리스트 입력 필드 컴포넌트
-import InputGroupField from '../common/input/InputGroup'; // 좌우 입력 필드 컴포넌트
-
+import InputField from '../../common/input/InputField'; // 기본 입력 필드 컴포넌트
+import InputList from '../../common/input/InputList'; // 리스트 입력 필드 컴포넌트
+import InputGroupField from '../../common/input/InputGroup'; // 좌우 입력 필드 컴포넌트
+import HospitalImageViewer from './HospitalImageViewer'
 const HospitalForm = ({
   hospital, // 병원 정보 객체 (HospitalDetailsResponse DTO)
   isEditing, // 편집 가능 여부
@@ -17,8 +18,13 @@ const HospitalForm = ({
   selectedSpecialties = [], // 선택된 진료과 목록
   setSelectedSpecialties = () => {}, // 선택된 진료과 목록 업데이트 함수 
 }) => {
-  // 썸네일 이미지 URL
-  const thumbnailUrl = imagePreview || hospital?.images?.[0]?.url || '/img/hospital/default-thumbnail.jpg';
+  const [viewMode, setViewMode] = useState('carousel'); // 'carousel' 또는 'list'
+
+  // 병원 이미지 URL 리스트 (imagePreview가 있으면 그것부터 보여줌)
+  const imageUrls = imagePreview
+  ? [imagePreview]
+  : hospital?.images?.map((img) => img.url) || ['/img/hospital/default-thumbnail.jpg'];
+
 
   // 진료과 체크박스 클릭 시 선택/해제 처리
   const handleCheckboxChange = (specialtyName) => {
@@ -31,20 +37,9 @@ const HospitalForm = ({
 
   return (
     <form>
-      {/* 병원 썸네일 이미지 */}
-      <div className="mb-4 text-center">
-        <img
-          src={thumbnailUrl} // 썸네일 이미지 URL
-          alt="병원 썸네일"
-          className="hospital-thumbnail" 
-        />
-        {isEditing && ( // 편집 가능 여부 확인 후 이미지 업로드 입력 필드 표시
-          <div className="mt-2">
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-          </div>
-        )}
-      </div>
-
+      {/* 병원 이미지 리스트 */}  
+      <HospitalImageViewer imageUrls={imageUrls} />
+      
       {/* 기본 정보 입력 필드*/}
       <InputField label="병원명" value={hospital?.name || ''} onChange={(e) => handleInputChange(e, 'name')} />
       <InputField label="전화번호" value={hospital?.phoneNumber || ''} onChange={(e) => handleInputChange(e, 'phoneNumber')} />

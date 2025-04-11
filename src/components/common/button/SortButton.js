@@ -12,7 +12,7 @@ import { Dropdown } from 'react-bootstrap';
 function SortButton({ current, options, onSelect }) {
   return (
     <Dropdown className="mb-3">
-      <Dropdown.Toggle variant="outline-secondary">
+      <Dropdown.Toggle variant="primary">
         정렬: {current}
       </Dropdown.Toggle>
 

@@ -11,7 +11,7 @@ import { fromHospitalApiResponse } from '../../dto/HospitalDetailsResponse'; // 
 import { fetchSpecialties } from '../../services/specialtyService'; // 서버에서 전체 진료과 목록을 가져오는 함수
 
 // 병원 폼 컴포넌트 import
-import HospitalForm from '../../components/hospital/HospitalForm'; // 병원 정보 입력 및 수정 UI를 담당하는 폼 컴포넌트
+import HospitalForm from '../../components/hospital/hospital-detail/HospitalForm'; // 병원 정보 입력 및 수정 UI를 담당하는 폼 컴포넌트
 
 // 공통 컴포넌트 import
 import PageHeader from '../../components/common/PageHeader'; // 페이지 상단 제목 및 설명 표시 컴포넌트

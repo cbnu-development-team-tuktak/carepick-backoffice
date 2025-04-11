@@ -7,7 +7,8 @@ import React from 'react'; // React 라이브러리
 import { 
   FaPen, // FaPen (편집 아이콘)
   FaSave, // FaSave (저장 아이콘)
-  FaPlus // FaPlus (추가 아이콘)
+  FaPlus, // FaPlus (추가 아이콘)
+  FaHistory // FaHistory (히스토리 아이콘)
 } from 'react-icons/fa'; 
 
 // 고정 버튼
@@ -24,6 +25,9 @@ const FloatingButton = ({ mode, onClick }) => {
       break;
     case 'add': // 추가 모드
       icon = <FaPlus size={24} />;
+      break;
+    case 'version': // 버전 보기 모드
+      icon = <FaHistory size={24} />;
       break;
     default: // 기본 모드
       icon = <FaPlus size={24} />;

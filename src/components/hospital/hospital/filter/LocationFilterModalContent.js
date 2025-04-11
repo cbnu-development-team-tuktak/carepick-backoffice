@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; 
 import { Tab } from 'react-bootstrap'; 
-import TabNav from '../../common/navigation/TabNav'; 
+import TabNav from '../../../common/navigation/TabNav'; 
 import DistrictSelectionTab from './DistrictSelectionTab'; 
 import GpsAddressSettingTab from './GpsAddressSettingTab'; 
 import { useDispatch } from 'react-redux'; 

@@ -4,14 +4,6 @@ import { Button, Modal } from 'react-bootstrap';
 import { FaFilter } from 'react-icons/fa'; // 필터 아이콘
 import { FaMapMarkerAlt } from 'react-icons/fa'; // 위치 마커 아이콘
 
-/**
- * 재사용 가능한 필터 버튼 (모달 오픈 전용)
- *
- * @param {string} buttonLabel - 버튼에 표시할 텍스트
- * @param {string} modalTitle - 모달 상단 제목
- * @param {ReactNode} children - 모달 내부에 렌더링할 내용 (외부에서 전달됨)
- * @param {string | number} modalHeight - 모달 본문 최대 높이 (예: '560px' 또는 숫자 560)
- */
 function FilterButton({
   buttonLabel = '필터',
   modalTitle = '필터 설정',
@@ -32,8 +24,8 @@ function FilterButton({
     <>
       {/* 필터 버튼 */}
       <Button
-        variant="outline-secondary"
-        className="mb-3 ms-2"
+        variant="primary"
+        className="mb-3 ms-2" // 외부 스타일 클래스 적용
         onClick={() => setShow(true)}
       >
         {/* 아이콘 선택 후 표시 */}

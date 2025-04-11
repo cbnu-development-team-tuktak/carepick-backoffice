@@ -29,6 +29,9 @@ export const fetchHospitalsByFilters = async ({
   lng = null,
   distance = null,
   specialties = [],
+  selectedDays = [],    
+  startTime = null,        
+  endTime = null,         
   sortBy = 'distance',
   page = 0,
   size = 20
@@ -39,26 +42,38 @@ export const fetchHospitalsByFilters = async ({
     size
   };
 
-  // 위치 정보가 있다면 추가
   if (lat != null && lng != null) {
     params.lat = lat;
     params.lng = lng;
   }
 
-  // 거리 필터가 있다면 추가
   if (distance != null) {
     params.distance = distance;
   }
 
-  // 진료과 필터가 있다면 추가
   if (specialties.length > 0) {
     params.specialties = specialties;
   }
 
-  // axios 요청 (qs를 사용해 specialties[]=x → specialties=x 형식으로 처리)
+  // ✅ 요일 필터가 있다면 추가
+  if (selectedDays.length > 0) {
+    params.selectedDays = selectedDays;
+  }
+
+  // ✅ 시작 시간 필터
+  if (startTime) {
+    params.startTime = startTime;
+  }
+
+  // ✅ 종료 시간 필터
+  if (endTime) {
+    params.endTime = endTime;
+  }
+
   const response = await axios.get('/api/hospitals/filter', {
     params,
-    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' })
+    paramsSerializer: params =>
+      qs.stringify(params, { arrayFormat: 'repeat' }) // 배열을 repeat 형식으로 직렬화
   });
 
   return response.data;

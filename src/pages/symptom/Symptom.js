@@ -49,7 +49,7 @@ function Symptom() {
       setLoading(true);
       try {
         const [start, end] = INITIAL_RANGES[selectedInitial]; // 초성 범위 가져오기
-        const data = await fetchSymptoms(page, 20, start, end); // 증상 API 호출
+        const data = await fetchSymptoms(page, 36, start, end); // 증상 API 호출
         setFilteredSymptoms(data.content); // 필터링된 증상 상태 업데이트
 
         // 증상 개수 조회 (page로 전체 개수를 계산)
@@ -69,7 +69,7 @@ function Symptom() {
     try {
       await deleteSymptom(id); // symptomService에서 삭제 요청
       const [start, end] = INITIAL_RANGES[selectedInitial];
-      const data = await fetchSymptoms(page, 20, start, end);
+      const data = await fetchSymptoms(page, 40, start, end);
       setFilteredSymptoms(data.content); // 필터링된 증상 상태 업데이트
       dispatch({ type: 'DELETE_SYMPTOM', payload: data.content }); // Redux 상태 업데이트
     } catch (error) {
@@ -77,7 +77,7 @@ function Symptom() {
     }
   };
 
-  const filteredTotalPages = Math.ceil(totalSymptomsCount / 20); // totalSymptomsCount에서 페이지 수 계산
+  const filteredTotalPages = Math.ceil(totalSymptomsCount / 40); // totalSymptomsCount에서 페이지 수 계산
   console.log(totalSymptomsCount)
   console.log(filteredTotalPages)
   return (
@@ -97,20 +97,11 @@ function Symptom() {
         }}
       />
 
-      {/* 글자 수 필터 */}
-      <LengthFilter
-        selectedLength={selectedLength}
-        onSelectLength={(length) => {
-          setSelectedLength(length);
-          setPage(0); // 필터 변경 시 페이지 리셋
-        }}
-      />
-
       {loading ? (
         <div className="text-center my-4">증상 데이터를 불러오는 중입니다...</div>
       ) : (
         <>
-          <div className="d-flex flex-wrap gap-2">
+          <div className="d-flex flex-wrap gap-4">
             {filteredSymptoms.map((symptom) => (
               <SymptomCard
                 key={symptom.id}

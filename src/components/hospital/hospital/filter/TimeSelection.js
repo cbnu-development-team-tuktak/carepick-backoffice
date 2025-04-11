@@ -2,7 +2,7 @@
 import React from 'react'; // React 컴포넌트 기능 사용
 
 // 컴포넌트 관련 import
-import TimeInputField from '../../common/input/TimeInputField'; // 시간 입력 필드
+import TimeInputField from '../../../common/input/TimeInputField'; // 시간 입력 필드
 
 // 기본 제공 시간 옵션 (드롭다운에서 시간 범위 선택 시 사용)
 const durationOptions = [

@@ -48,6 +48,15 @@
   font-size: 0.5rem;
 }
 
+/* ================== 필터 버튼 스타일 ================== */
+/* ================== 필터 버튼 스타일 ================== */
+.filter-button {
+  background-color: #0d6efd !important; /* 선택 시 파란 배경 */
+  color: white !important;
+  border-color: #0d6efd !important;
+  font-weight: 500;
+}
+
 /* ================== 병원 필터 모달 관련 스타일 ================== */
 
 /* 불필요한 padding/margin 제거 */
@@ -242,19 +251,91 @@
 
 /* ================== 병원 상세 정보 관련 스타일 ================== */
 
-/* 병원 썸네일 스타일 */
-.hospital-thumbnail {
-  width: 368px; /* 이미지 너비 */
-  height: 184px; /* 이미지 높이 */
-  object-fit: cover; /* 이미지 크기 조정 (비율 유지) */
-  border-radius: 12px; /* 둥근 모서리 */
+.hospital-carousel {
+  width: 100%;
+  overflow: visible;
+}
+
+.hospital-slide {
+  width: 480px !important;
+  transition: opacity 0.3s ease;
+}
+
+/* Swiper에서 자동으로 active 슬라이드에 붙는 클래스 */
+.hospital-slide:not(.swiper-slide-active) {
+  opacity: 0.4;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* 마지막 + 카드 슬라이드 */
+.add-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.add-image-card {
+  width: 100%;
+  height: 270px;
+  font-size: 64px;
+  font-weight: bold;
+  color: #6c757d;
+  background-color: #f1f3f5;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.add-image-card:hover {
+  background-color: #e0e0e0;
+}
+
+.hospital-image-file-list {
+  padding: 12px;
+  background-color: #fafafa;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.hospital-image-file-item {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.hospital-image-file-item:last-child {
+  border-bottom: none;
+}
+
+.hospital-image-url {
+  max-width: 380px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.hospital-image-alt {
+  font-size: 0.85rem;
+  color: #888;
 }
 
 /* ================== 증상 카드 ================== */
 
 .symptom-card {
-  min-width: 280px;
-  max-width: 280px;
+  width: 280px;
   box-sizing: border-box;
   cursor: default;
 }
