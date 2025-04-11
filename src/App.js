@@ -27,6 +27,8 @@ import SelfDiagnosis from './pages/self-diagnosis/SelfDiagnosis'; // 자가진�
 
 import Crawling from './pages/crawling/Crawling'; // 크롤링 페이지 컴포넌트
 
+import Terminal from './pages/terminal/Terminal'; // 터미널 페이지 컴포넌트
+
 import Settings from './pages/settings/Settings'; // 세팅 페이지 컴포넌트
 import Location from './pages/settings/Location'; // 세팅 페이지 컴포넌트
 function App() {
@@ -73,6 +75,10 @@ function App() {
 
           {/* 크롤링 페이지 */}
           <Route path="/crawling" element={<Crawling />} />
+
+          {/* 터미널 페이지 */}
+          <Route path="/terminal" element={<Terminal />} />
+
           {/* 세팅 페이지 */}
           <Route path="/settings" element={<Settings />} />
 

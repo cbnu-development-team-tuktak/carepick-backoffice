@@ -50,6 +50,7 @@ function HospitalFilterModalContent({
 
       {/* 진료 시간 범위 설정 */}
       <OperatingHoursRange />
+      
       {/* 질병 검색 라벨 */}
       <label className="form-label">질병 선택</label>
 
