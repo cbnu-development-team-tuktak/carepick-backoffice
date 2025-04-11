@@ -12,7 +12,7 @@ import DoctorForm from '../../components/doctor/DoctorForm'; // 의사 상세 �
 import PageHeader from '../../components/common/PageHeader'; // 페이지 상단의 제목 및 설명 영역
 
 // 서비스 import
-import { fetchSpecialties } from '../../services/specialtyService'; // 진료과 목록을 백엔드로붜 가져오는 서비스 함수
+import { fetchSpecialties } from '../../services/hospital/specialtyService'; // 진료과 목록을 백엔드로붜 가져오는 서비스 함수
 
 function DoctorDetail() {
   // URL 파라미터에서 의사 ID 추출

@@ -1,0 +1,25 @@
+/* ================== 고정 버튼 스타일 ================== */
+
+// 플로팅 버튼
+.floating-btn {
+    position: fixed; // 화면에 고정된 위치에 배치
+    right: 20px; // 오른쪽에서 20px 떨어지게 배치
+    bottom: 20px; // 아래에서 20px 떨어지게 배치
+    border-radius: 50% !important; // 버튼을 원형으로 만듦 
+    width: 60px; // 버튼의 가로 크기
+    height: 60px; // 버튼의 세로 크기
+    display: flex; // flexbox로 아이콘을 정렬
+    justify-content: center; // 가로로 가운데 정렬
+    align-items: center; // 세로로 가운데 정렬
+    z-index: 1000; // 버튼이 다른 요소 위에 위치하도록 설정
+}
+
+// 플로팅 버튼의 아이콘
+.floating-btn .react-icons {
+    font-size: 24px; // 아이콘 크기 설정
+}
+
+// 버튼 위에 마우스가 올라갔을 경우
+.floating-btn:hover {
+    cursor: pointer; // 버튼 위에 마우스 올리면 포인터로 변경
+}

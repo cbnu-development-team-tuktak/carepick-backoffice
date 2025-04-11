@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client'; // ReactDOM을 사용해 렌더링 수행
 
 // 스타일 관련 import
-import './index.css'; // 전체 애플리케이션의 기본 CSS 스타일
+import './styles/index.scss'; // 전체 애플리케이션의 기본 CSS 스타일
 import 'bootstrap/dist/css/bootstrap.min.css'; // 부트스트랩 CSS 스타일
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // 부트스트랩 JS 기능 (예: 모달, 툴팁 등)
 

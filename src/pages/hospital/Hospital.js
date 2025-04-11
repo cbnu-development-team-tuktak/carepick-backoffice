@@ -15,7 +15,7 @@ import HospitalFilterModalContent from '../../components/hospital/hospital/filte
 import LocationFilterModalContent from '../../components/hospital/hospital/filter/LocationFilterModalContent'; // 위치 기반 병원 필터 모달 내용
 
 // 병원 API 서비스 함수 import
-import { fetchHospitalsByFilters } from '../../services/hospitalService'; // 필터 조건에 따라 병원 목록을 가져오는 API 요청
+import { fetchHospitalsByFilters } from '../../services/hospital/hospitalService'; // 필터 조건에 따라 병원 목록을 가져오는 API 요청
 
 // 병원 API 응답을 DTO 형식으로 변환하는 함수
 import { fromHospitalApiResponse } from '../../dto/HospitalDetailsResponse'; // API 응답을 HospitalDetails DTO 형식으로 변환

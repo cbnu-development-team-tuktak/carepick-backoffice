@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fromDiseaseApiResponse } from '../../dto/DiseaseDetailsResponse';
-import { fetchSymptomById } from '../../services/symptomService'; // ⬅️ 증상 이름 조회 함수
+import { fetchSymptomById } from '../../services/symptom/symptomService'; // ⬅️ 증상 이름 조회 함수
 import DiseaseForm from '../../components/disease/DiseaseForm';
 import PageHeader from '../../components/common/PageHeader';
 import FloatingButton from '../../components/common/button/FloatingButton';

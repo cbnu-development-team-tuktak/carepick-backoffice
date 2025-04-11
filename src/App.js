@@ -25,12 +25,15 @@ import SymptomDetail from './pages/symptom/SymptomDetail'; // 증상 상세 페�
 
 import SelfDiagnosis from './pages/self-diagnosis/SelfDiagnosis'; // 자가진단 테스트 페이지 컴포넌트
 
+import Backup from './pages/backup/Backup'; // 백업 페이지 컴포넌트
+
 import Crawling from './pages/crawling/Crawling'; // 크롤링 페이지 컴포넌트
 
-import Terminal from './pages/terminal/Terminal'; // 터미널 페이지 컴포넌트
+// import Terminal from './pages/terminal/Terminal'; // 터미널 페이지 컴포넌트
 
 import Settings from './pages/settings/Settings'; // 세팅 페이지 컴포넌트
 import Location from './pages/settings/Location'; // 세팅 페이지 컴포넌트
+
 function App() {
   return (
     <Router>
@@ -73,11 +76,14 @@ function App() {
           {/* 자가진단 페이지 */}
           <Route path="/self-diagnosis" element={<SelfDiagnosis />} />
 
+          {/* 백업 페이지 */}
+          <Route path="/backup" element={<Backup />} />
+          
           {/* 크롤링 페이지 */}
           <Route path="/crawling" element={<Crawling />} />
 
           {/* 터미널 페이지 */}
-          <Route path="/terminal" element={<Terminal />} />
+          {/* <Route path="/terminal" element={<Terminal />} /> */}
 
           {/* 세팅 페이지 */}
           <Route path="/settings" element={<Settings />} />

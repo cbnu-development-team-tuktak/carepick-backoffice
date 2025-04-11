@@ -5,7 +5,7 @@ import PageHeader from '../../components/common/PageHeader';
 import {
   fetchHospitalOperatingHours,
   fetchHospitalOperatingHoursFromNaver,
-} from '../../services/crawlingService';
+} from '../../services/crawling/crawlingService';
 
 function Crawling() {
   const [responseData, setResponseData] = useState(null); // 서버 응답 데이터

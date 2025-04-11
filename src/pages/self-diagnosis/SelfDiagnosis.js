@@ -13,7 +13,7 @@ import {
   submitSymptomsForDiagnosis,
   submitDiseasesForDiagnosis,
   submitNaturalTextForDiagnosis,
-} from '../../services/selfDiagnosisService'; // 자가진단 API 요청 함수들
+} from '../../services/self-diagnosis/selfDiagnosisService'; // 자가진단 API 요청 함수들
 
 // 콤마로 구분된 텍스트를 배열로 추출하는 유틸 함수
 const extractCommaSeparatedList = (text) => {

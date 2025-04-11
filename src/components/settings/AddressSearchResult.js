@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCoordinatesByAddress } from '../../services/geolocationService'
+import { getCoordinatesByAddress } from '../../services/hospital/geolocationService'
 
 const AddressSearchResult = ({ results, onSelect }) => {
   // 검색 전이면 표시하지 않음

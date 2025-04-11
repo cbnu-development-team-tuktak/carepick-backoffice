@@ -1,0 +1,51 @@
+/* ================== 의사 카드 스타일 ================== */
+
+// 의사 카드
+.doctor-card {
+    width: 184px !important; // 카드 너비
+    border-radius: 12px; // 둥근 모서리
+    overflow: hidden; // 내용이 넘칠 경우 숨김 처리
+    padding: 0 !important; // 기본 패딩 제거
+    margin: 4px; // 카드 간격
+    font-size: 0.85rem; // 폰트 크기 설정
+}
+  
+// 의사 프로필 이미지
+.doctor-card-image {
+    height: 184px !important; // 고정된 이미지 높이
+    object-fit: cover; // 비율 유지하며 영역 채우기
+}
+  
+// 의사 카드의 제목  
+.card-title {
+    font-size: 1rem; // 제목 글씨 크기
+    margin-bottom: 0.5rem; // 제목과 내용 사이 여백
+    text-align: left !important; // 왼쪽 정렬
+}
+
+// 의사 카드의 본문 텍스트
+.card-text {
+    font-size: 0.75rem; // 본문 글씨 크기
+    margin-bottom: 0.25rem; // 항목 간 여백
+    text-align: left !important; // 왼쪽 정렬
+}
+  
+/* ================== 의사 상세 정보 관련 스타일 ================== */
+  
+// 의사 이미지 스타일 
+.doctor-image {
+    width: 100px; // 이미지 너비
+    height: 100px; // 이미지 높이
+    object-fit: cover; // 비율 유지하며 영역 채우기
+    cursor: pointer;  // 클릭 가능한 커서
+    display: block; // 블록 요소
+    margin: 0; // 여백 제거
+}
+  
+// 새 창에서 이미지 확대 시 적용될 스타일
+.full-screen-image {
+    max-width: 100%; // 최대 너비 제한
+    height: auto; // 높이 자동 조정
+    margin: 0; // 여백 제거
+    display: block; // 블록 요소로 표시
+}

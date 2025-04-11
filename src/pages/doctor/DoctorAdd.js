@@ -10,7 +10,7 @@ import FloatingButton from '../../components/common/button/FloatingButton'; // �
 import PageHeader from '../../components/common/PageHeader'; // 상단 페이지 헤더
 
 // 서비스
-import { fetchSpecialties } from '../../services/specialtyService'; // 진료과 목록 API
+import { fetchSpecialties } from '../../services/hospital/specialtyService'; // 진료과 목록 API
 
 function DoctorAdd() {
   const navigate = useNavigate();

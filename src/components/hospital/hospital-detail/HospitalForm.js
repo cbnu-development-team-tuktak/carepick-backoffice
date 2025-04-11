@@ -2,11 +2,14 @@
 
 // React 관련 import
 import React, { useState } from 'react'; // React 라이브러리 임포트
-import { Carousel } from 'react-bootstrap'; // 부트스트랩 캐러셀 컴포넌트
+
 // 커스텀 컴포넌트 관련 import
 import InputField from '../../common/input/InputField'; // 기본 입력 필드 컴포넌트
 import InputList from '../../common/input/InputList'; // 리스트 입력 필드 컴포넌트
 import InputGroupField from '../../common/input/InputGroup'; // 좌우 입력 필드 컴포넌트
+import HospitalBasicInfoSection from './HospitalBasicInfoSection';
+import SpecialtySelector from './SpecialtySelector';
+
 import HospitalImageViewer from './HospitalImageViewer'
 const HospitalForm = ({
   hospital, // 병원 정보 객체 (HospitalDetailsResponse DTO)
@@ -41,34 +44,19 @@ const HospitalForm = ({
       <HospitalImageViewer imageUrls={imageUrls} />
       
       {/* 기본 정보 입력 필드*/}
-      <InputField label="병원명" value={hospital?.name || ''} onChange={(e) => handleInputChange(e, 'name')} />
-      <InputField label="전화번호" value={hospital?.phoneNumber || ''} onChange={(e) => handleInputChange(e, 'phoneNumber')} />
-      <InputField label="홈페이지" value={hospital?.homepage || ''} onChange={(e) => handleInputChange(e, 'homepage')} />
-      <InputField label="주소" value={hospital?.address || ''} onChange={(e) => handleInputChange(e, 'address')} />
-
-      <InputField label="외부 URL" value={hospital?.url || ''} onChange={(e) => handleInputChange(e, 'url')} />
+      <HospitalBasicInfoSection
+        hospital={hospital}
+        onChange={handleInputChange}
+        disabled={true}
+      />
 
       {/* 진료과 체크박스 */}
-      <div className="mb-4">
-        <label className="form-label fw-bold" style={{ fontSize: '1.2rem' }}>진료과</label>
-        <div className="d-flex flex-wrap gap-2">
-          {specialties.map((specialty, idx) => (
-            <div key={idx} className="form-check">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                id={`specialty-${specialty.id}`}
-                disabled={!isEditing}
-                checked={selectedSpecialties.includes(specialty.name)}
-                onChange={() => handleCheckboxChange(specialty.name)}
-              />
-              <label className="form-check-label" htmlFor={`specialty-${specialty.id}`}>
-                {specialty.name}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
+      <SpecialtySelector
+        specialties={specialties} // 진료과 리스트 (배열)
+        selected={selectedSpecialties} // 현재 선택된 진료과 (배열)
+        onChange={handleCheckboxChange} // 체크박스 변경 핸들러
+        isEditing={isEditing} // 체크 가능 여부
+      />
 
       {/* 소속 의사 ID 입력 리스트 */}
       <InputList

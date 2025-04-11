@@ -9,7 +9,7 @@ const SPECIALTIES = [
   "이비인후과", "정신건강의학과", "직업환경의학과", "치과", "한방과", "흉부외과"
 ];
 
-function SpecialtySelector({ 
+function SpecialtyFilter({ 
   selectedSpecialties = [], // 현재 선택된 진료과 리스트
   onChange // 진료과 선택 또는 해제 시 호출되는 콜백 함수
 }) {
@@ -25,7 +25,7 @@ function SpecialtySelector({
 
   return (
     // 전체 진료과 선택 영역
-    <Form.Group className="mb-4">
+    <Form.Group className="specialty-filter mb-4">
       {/* 진료과 섹션 제목 */}
       <Form.Label>진료과 선택</Form.Label>
       {/* 2열 그리드 형태의 진료과 버튼 목록 */}
@@ -47,4 +47,4 @@ function SpecialtySelector({
   );
 }
 
-export default SpecialtySelector;
+export default SpecialtyFilter;

@@ -8,7 +8,7 @@ import { useParams, useNavigate } from 'react-router-dom'; // URL 파라미터 �
 import { fromHospitalApiResponse } from '../../dto/HospitalDetailsResponse'; // 서버 응답을 HospitalDetailsResponse 형식으로 변환하는 유틸
 
 // 병원 진료과 조회 서비스 함수 import
-import { fetchSpecialties } from '../../services/specialtyService'; // 서버에서 전체 진료과 목록을 가져오는 함수
+import { fetchSpecialties } from '../../services/hospital/specialtyService'; // 서버에서 전체 진료과 목록을 가져오는 함수
 
 // 병원 폼 컴포넌트 import
 import HospitalForm from '../../components/hospital/hospital-detail/HospitalForm'; // 병원 정보 입력 및 수정 UI를 담당하는 폼 컴포넌트

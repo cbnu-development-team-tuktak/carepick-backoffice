@@ -1,0 +1,111 @@
+/* ================== 필터 버튼 스타일 ================== */
+// 필터 버튼
+.filter-button {
+    background-color: #0d6efd !important; // 파랑 배경
+    color: white !important; // 텍스트 색상
+    border-color: #0d6efd !important; // 파란색 테두리
+    font-weight: 500; // 중간 굵기 텍스트
+}
+  
+/* ================== 진료과 선택 관련 스타일 ================== */
+  
+// 불필요한 패딩/마진 제거  
+.specialty-filter .no-gap {
+    padding: 0 !important; // 패딩 제거
+    margin: 0 !important; // 마진 제거
+}
+  
+// 진료과 선택 버튼
+.specialty-filter .specialty-box {
+    border: 1px solid #ccc; // 연한 회색 테두리
+    border-top: none; // 상단 테두리 제거
+    padding: 0.75rem; // 내부 여백 설정
+    text-align: center; // 텍스트 가운데 정렬
+    font-size: 0.95rem; // 글자 크기 조정
+    cursor: pointer; // 마우스 오버 시 포인터
+    user-select: none; // 텍스트 선택 방지
+    transition: background-color 0.2s, border-color 0.2s; // 부드러운 전환 효과
+}
+  
+// 첫 번째 줄의 상단 테두리 추가
+.specialty-filter .no-gap .col-6:nth-child(1),
+.specialty-filter .no-gap .col-6:nth-child(2) {
+    border-top: 1px solid #ccc 
+}
+  
+// 왼쪽 열(홀수 번째)의 오른쪽 테두리 제거
+.specialty-filter .specialty-box:nth-child(2n - 1) {
+    border-right: none // 오른쪽 테두리 제거 
+}
+  
+// 마지막 줄 첫 번째 칸의 오른쪽 테두리 복원 
+.specialty-filter .no-gap .col-6:nth-child(19) { 
+    border-right: 1px solid #ccc // 오른쪽 테두리 다시 표시
+}
+  
+// 오른쪽 열(짝수 번째)은 오른쪽 테두리 표시
+.specialty-filter .no-gap .col-6:nth-child(2n) {
+    border-right: 1px solid #ccc // 오른쪽 테두리 유지
+}
+
+// 마지막 두 개의 진료과 선택 버튼은 하단 테두리 추가
+.specialty-filter .specialty-box:last-child,
+.specialty-filter .specialty-box:nth-last-child(2) {
+    border-bottom: 1px solid #ccc; // 하단 테두리 추가
+}
+  
+// 마우스 오버 시 배경색 변경
+.specialty-filter .specialty-box:hover {
+    background-color: #f8f9fa; // 밝은 회색 배경
+}
+  
+// 선택된 박스 스타일
+.specialty-filter .specialty-box.selected {
+    background-color: #0d6efd; // 파란색 배경
+    color: white; // 흰색 글자
+    border-color: #0d6efd; // 파란색 테두리
+}
+
+/* ================== 요일 버튼 관련 스타일 ================== */
+// 요일 버튼
+.day-button {
+    width: 40px !important; // 버튼 너비
+    height: 40px; // 버튼 높이
+    font-size: 14px; // 글자 크기
+    font-weight: 500; // 중간 굵기
+    border-radius: 50% !important; // 동그란 버튼
+    padding: 0 !important; // 내부 여백 제거
+    text-align: center !important; // 텍스트 중앙 정렬
+    border-color: #d1d5db !important; // 기본 테두리 색
+    color: #000000 !important; // 기본 텍스트 색상
+}
+
+// 선택된 요일 버튼
+.day-button.selected {
+    border-color: #0d6efd !important; // 선택 시 파란 테두리
+    color: #ffffff !important; // 선택 시 흰색 텍스트
+}
+  
+/* ================== 시간 범위 선택 관련 스타일 ================== */
+// 시간 범위 select + 라벨을 포함하는 영역
+.duration-select-wrapper {
+    display: flex; // 세로 정렬용 flex 컨테이너
+    flex-direction: column; // 세로 방향 배치
+    width: 120px; // 전체 너비
+}
+
+// 시간 범위 선택 라벨
+.duration-select-label {
+    font-size: 12px; // 라벨 글자 크기
+    margin-bottom: 4px; // 아래 여백
+}
+
+// 시간 범위 select
+.duration-select {
+    width: 136px !important; // select 박스 너비
+    font-size: 14px; // 글자 크기
+    height: 38px; // 높이 설정
+    border-radius: 4px; // 둥근 테두리
+    border: 1px solid #ccc; // 테두리 색상
+}
+  

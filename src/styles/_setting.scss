@@ -1,0 +1,22 @@
+/* ================== 설정 페이지 관련스타일 ================== */
+// 조심해서 다루어야 하는 기능 영역
+.danger {
+    border-color: #dc3545 !important; // 빨간색 테두리
+}
+
+// 조심해서 다루어야 하는 기능 영역의 헤더
+.danger .card-header {
+    background-color: #dc3545; // 빨간색 헤더 영역
+    color: white; // 흰색 텍스트
+}
+
+// 조심해서 다루어야 하는 기능 영역의 본문
+.card.bg-danger .card-body {
+    background-color: white; // 흰색 배경
+    color: black; // 검은 텍스트
+}
+
+// 조심해서 다루어야 하는 기능 영역의 버튼
+.card.bg-danger .card-body .btn-danger {
+    color: white; // 흰색 텍스트
+}

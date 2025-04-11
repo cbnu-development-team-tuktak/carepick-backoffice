@@ -1,0 +1,35 @@
+/* ================== 증상 카드 ================== */
+
+.symptom-card {
+    width: 280px;
+    box-sizing: border-box;
+    cursor: default;
+  }
+  
+  /* 입력 비활성 상태 */
+  .symptom-name-input:disabled {
+    background-color: #eee !important;
+    color: #333;
+  }
+  
+  /* 버튼 그룹 스타일 */
+  .symptom-button-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 12px; /* ✅ 입력창과의 간격 추가 */
+    gap: 6px;
+  }
+  
+  /* 아이콘 버튼 */
+  .symptom-icon-btn {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  
+  

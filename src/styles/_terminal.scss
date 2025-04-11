@@ -1,0 +1,15 @@
+/* ================== 터미널 페이지 관련 스타일 ================== */
+
+// 로그 박스 전체 스타일
+.logBox {
+    background-color: #1e1e1e; // 어두운 콘솔 느낌의 배경색
+    color: #00ff88; // 초록색 텍스트 색상 (터미널 스타일)
+    font-family: monospace; // 고정폭 글꼴 (코드/로그 전용)
+    font-size: 0.9rem; // 글자 크기
+    height: 500px; // 고정 높이 설정
+    overflow-y: scroll; // 세로 스크롤 가능
+    border-radius: 8px; // 둥근 테두리
+    padding: 1rem; // 내부 여백
+    margin-top: 1rem; // 위쪽 간격
+}
+  

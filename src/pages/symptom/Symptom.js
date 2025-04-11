@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'; // React 관련 라이브러리
 import { useNavigate } from 'react-router-dom'; // 페이지 이동 훅
 import { useDispatch } from 'react-redux'; // Redux 상태 관리
-import { deleteSymptom, fetchSymptoms, fetchSymptomsCount } from '../../services/symptomService'; // 증상 서비스
+import { deleteSymptom, fetchSymptoms, fetchSymptomsCount } from '../../services/symptom/symptomService'; // 증상 서비스
 
 import SymptomCard from '../../components/symptom/SymptomCard'; // 증상 카드 컴포넌트
 import Pagination from '../../components/common/Pagination'; // 페이지네이션 컴포넌트
 import PageHeader from '../../components/common/PageHeader'; // 페이지 헤더 컴포넌트
 import InitialFilter from '../../components/filter/InitialFilter'; // 초성 필터 컴포넌트
 import LengthFilter from '../../components/filter/LengthFilter'; // 글자 수 필터 컴포넌트
+
+import FloatingButton from '../../components/common/button/FloatingButton'; // 플로팅 버튼
 
 function Symptom() {
   const navigate = useNavigate(); // 페이지 이동 훅
@@ -117,6 +119,12 @@ function Symptom() {
             totalPages={filteredTotalPages}
             onPageChange={(newPage) => setPage(newPage)}
           />
+  
+          <FloatingButton
+            mode="version"
+            onClick={() => console.log()}
+          />
+
         </>
       )}
     </div>

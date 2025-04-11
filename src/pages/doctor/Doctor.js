@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'; // 컴포넌트 생명주기
 import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate 훅
 
 // 의사 서비스 함수 import
-import { fetchDoctors } from '../../services/doctorService'; // 백엔드에서 가공된 의사 목록 데이터를 조회하는 함수
+import { fetchDoctors } from '../../services/doctor/doctorService'; // 백엔드에서 가공된 의사 목록 데이터를 조회하는 함수
 
 // DTO 변환 함수 import
 import { fromDoctorApiResponse } from '../../dto/DoctorDetailsResponse'; // 백엔드 응답 데이터를 프론트에서 사용할 Doctor DTO 형태로 변환하는 함수
